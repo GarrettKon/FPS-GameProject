@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class foundKey : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] GameObject door;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            door.SetActive(false);
+            gameObject.SetActive(false);
+            //todo Pop up noting the door is now open
+        }
     }
 }
