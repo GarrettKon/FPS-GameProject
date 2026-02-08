@@ -1,4 +1,7 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class gameManager : MonoBehaviour
 {
@@ -10,6 +13,9 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] TMP_Text enemyCountText;
+    public Image healthBar;
+    public GameObject playerDamageFlash;
 
     public GameObject player;
     //TODO playerScript Pending Miyu's script
@@ -17,7 +23,7 @@ public class gameManager : MonoBehaviour
 
     //TODO HP bar + Damage Flash Matt
 
-
+    int enemyCountNumber;
     public bool isPaused;
     float timeScaleOrig;
 
@@ -43,8 +49,11 @@ public class gameManager : MonoBehaviour
         //TODO pause menu code Garrett
     }
 
-    public void updateGameGoal()
+    public void updateGameGoal(int amount)
     {
+        enemyCountNumber += amount;
+        enemyCountText.text = enemyCountNumber.ToString("F0");
+
         if (gameGoalReached)
         {
             youWin();
