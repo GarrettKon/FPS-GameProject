@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::playerControlller
   controller: {fileID: 5746976823923243006}
   HP: 10
-  speed: 5
+  speed: 6
   sprintMod: 2
   jumpSpeed: 12
   jumpMax: 1
@@ -60,8 +60,12 @@ MonoBehaviour:
   playerCamera: {fileID: 2339204029989708540}
   crouchCameraOffset: 0.5
   crouchLerpSpeed: 10
+  standLerpSpeed: 10
   crouchHeight: 1
   standHeight: 2
+  shootDamage: 1
+  shootDist: 20
+  shootRate: 0.5
 --- !u!143 &5746976823923243006
 CharacterController:
   m_ObjectHideFlags: 0

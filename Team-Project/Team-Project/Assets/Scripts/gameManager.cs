@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class gameManager : MonoBehaviour
 {
 
@@ -12,7 +13,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
 
     public GameObject player;
-    //TODO playerScript Pending Miyu's script
+    public playerController playerScript;
 
 
     //TODO HP bar + Damage Flash Matt
@@ -35,6 +36,7 @@ public class gameManager : MonoBehaviour
         timeScaleOrig = Time.timeScale;
 
         player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<playerController>();
     }
 
     // Update is called once per frame

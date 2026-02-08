@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections;
 
-public class playerControlller : MonoBehaviour
+public class playerController : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
 
@@ -15,12 +16,19 @@ public class playerControlller : MonoBehaviour
     [SerializeField] Transform playerCamera;
     [SerializeField] float crouchCameraOffset;
     [SerializeField] float crouchLerpSpeed;
+    [SerializeField] float standLerpSpeed;
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
+
+    [SerializeField] int shootDamage;
+    [SerializeField] int shootDist;
+    [SerializeField] float shootRate;
 
     int jumpCount;
     int HPOrig;
     int speedOrig;
+
+    float shootTimer;
 
     bool isCrouching;
 
@@ -34,6 +42,7 @@ public class playerControlller : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        HPOrig = HP;
         cameraStartPos = playerCamera.localPosition;
         standHeight = controller.height;
         playerCenterOrig = controller.center;
@@ -50,6 +59,10 @@ public class playerControlller : MonoBehaviour
 
     void movement()
     {
+        shootTimer += Time.deltaTime;
+
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
+
         if (controller.isGrounded)
         {
             jumpCount = 0;
@@ -64,6 +77,8 @@ public class playerControlller : MonoBehaviour
         controller.Move(playerVeloc * Time.deltaTime);
         playerVeloc.y -= gravity * Time.deltaTime;
 
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+            shoot();
     }
 
     void jump()
@@ -141,4 +156,31 @@ public class playerControlller : MonoBehaviour
         );
     }
 
+    void shoot()
+    {
+        shootTimer = 0;
+
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
+        {
+            Debug.Log(hit.collider.name);
+
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.takeDamage(shootDamage);
+            }
+        }
+    }
+
+    public void takeDamage(int amount)
+    {
+        HP -= amount;
+        //TODO waiting on damage HP & flash material Matt
+
+        if (HP <= 0)
+        {
+            gameManager.instance.youLose();
+        }
+    }
 }
