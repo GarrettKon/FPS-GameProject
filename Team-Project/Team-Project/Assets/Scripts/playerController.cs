@@ -203,10 +203,24 @@ public class playerController : MonoBehaviour
     {
         HP -= amount;
         //TODO waiting on damage HP & flash material Matt
+        updatePlayerUI();
+        StartCoroutine(flashScreen());
 
         if (HP <= 0)
         {
             gameManager.instance.youLose();
         }
+    }
+
+    IEnumerator flashScreen()
+    {
+        gameManager.instance.playerDamageFlash.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        gameManager.instance.playerDamageFlash.SetActive(false);
+    }
+
+    public void updatePlayerUI()
+    {
+        gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
     }
 }
