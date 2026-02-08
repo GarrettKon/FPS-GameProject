@@ -346,7 +346,7 @@ MonoBehaviour:
   playerCamera: {fileID: 1512294484}
   crouchCameraOffset: 0.5
   crouchLerpSpeed: 10
-  standLerpSpeed: 10
+  standLerpSpeed: 5
   crouchHeight: 1
   standHeight: 2
   shootDamage: 1

@@ -56,6 +56,7 @@ public class playerController : MonoBehaviour
         sprint();
         crouch();
         crouchVisual();
+        standUpLerp();
     }
 
     void movement()
@@ -111,13 +112,19 @@ public class playerController : MonoBehaviour
 
         bool wantToCrouch = !isCrouching;
 
-        if (!wantToCrouch)
+        if (wantToCrouch)
         {
-            Vector3 rayStart = transform.position + Vector3.up * controller.height;
-            float rayDistance = standHeight - controller.height;
+            isCrouching = true;
+            isStandingUp = false;
 
-            if (Physics.Raycast(rayStart, Vector3.up, rayDistance))
-                return;
+            speed /= crouchMod;
+
+            controller.height = crouchHeight;
+            controller.center = new Vector3(
+                controller.center.x,
+                crouchHeight / 2f,
+                controller.center.z
+            );
         }
         else
         {
@@ -129,25 +136,6 @@ public class playerController : MonoBehaviour
 
             isCrouching = false;
             isStandingUp = true;
-        }
-
-        isCrouching = wantToCrouch;
-
-        if (isCrouching)
-        {
-            speed /= crouchMod;
-            controller.height = crouchHeight;
-            controller.center = new Vector3(
-                controller.center.x,
-                crouchHeight / 2f,
-                controller.center.z
-            );
-        }
-        else
-        {
-            speed *= crouchMod;
-            controller.height = standHeight;
-            controller.center = playerCenterOrig;
         }
     }
 
@@ -166,6 +154,32 @@ public class playerController : MonoBehaviour
             targetPos,
             crouchLerpSpeed * Time.deltaTime
         );
+    }
+
+    void standUpLerp()
+    {
+        if (!isStandingUp)
+            return;
+
+        controller.height = Mathf.Lerp(
+            controller.height,
+            standHeight,
+            standLerpSpeed * Time.deltaTime
+        );
+
+        controller.center = Vector3.Lerp(
+            controller.center,
+            playerCenterOrig,
+            standLerpSpeed * Time.deltaTime
+        );
+
+        if (Mathf.Abs(controller.height - standHeight) < 0.01f)
+        {
+            controller.height = standHeight;
+            controller.center = playerCenterOrig;
+            speed *= crouchMod;
+            isStandingUp = false;
+        }
     }
 
     void shoot()
