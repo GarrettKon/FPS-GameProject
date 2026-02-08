@@ -31,6 +31,7 @@ public class playerController : MonoBehaviour
     float shootTimer;
 
     bool isCrouching;
+    bool isStandingUp;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -117,6 +118,17 @@ public class playerController : MonoBehaviour
 
             if (Physics.Raycast(rayStart, Vector3.up, rayDistance))
                 return;
+        }
+        else
+        {
+            Vector3 rayStart = transform.position + Vector3.up * controller.height;
+            float rayDistance = standHeight - controller.height;
+
+            if (Physics.Raycast(rayStart, Vector3.up, rayDistance))
+                return;
+
+            isCrouching = false;
+            isStandingUp = true;
         }
 
         isCrouching = wantToCrouch;
