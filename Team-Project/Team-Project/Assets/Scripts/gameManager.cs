@@ -51,11 +51,8 @@ public class gameManager : MonoBehaviour
         //TODO pause menu code Garrett
     }
 
-    public void updateGameGoal(int amount)
+    public void updateGameGoal()
     {
-        enemyCountNumber += amount;
-        enemyCountText.text = enemyCountNumber.ToString("F0");
-
         if (gameGoalReached)
         {
             youWin();
@@ -72,5 +69,11 @@ public class gameManager : MonoBehaviour
     {
         //you lose menu code Garrett
 
+    }
+
+    public void updateEnemyCount(int amount)
+    {
+        enemyCountNumber -= amount;
+        enemyCountText.text = enemyCountNumber.ToString("F0");
     }
 }
