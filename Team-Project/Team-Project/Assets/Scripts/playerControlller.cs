@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerControlller : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
 
@@ -16,22 +15,14 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] Transform playerCamera;
     [SerializeField] float crouchCameraOffset;
     [SerializeField] float crouchLerpSpeed;
-    [SerializeField] float standLerpSpeed;
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
-
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
 
     int jumpCount;
     int HPOrig;
     int speedOrig;
 
-    float shootTimer;
-
     bool isCrouching;
-    bool isStandingUp;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -43,10 +34,10 @@ public class playerController : MonoBehaviour, IDamage
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        HPOrig = HP;
         cameraStartPos = playerCamera.localPosition;
         standHeight = controller.height;
         playerCenterOrig = controller.center;
+        speedOrig = speed;
     }
 
     // Update is called once per frame
@@ -56,15 +47,10 @@ public class playerController : MonoBehaviour, IDamage
         sprint();
         crouch();
         crouchVisual();
-        standUpLerp();
     }
 
     void movement()
     {
-        shootTimer += Time.deltaTime;
-
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
-
         if (controller.isGrounded)
         {
             jumpCount = 0;
@@ -79,8 +65,6 @@ public class playerController : MonoBehaviour, IDamage
         controller.Move(playerVeloc * Time.deltaTime);
         playerVeloc.y -= gravity * Time.deltaTime;
 
-        if (Input.GetButtonDown("Fire1") && shootTimer >= shootRate)
-            shoot();
     }
 
     void jump()
@@ -112,13 +96,20 @@ public class playerController : MonoBehaviour, IDamage
 
         bool wantToCrouch = !isCrouching;
 
-        if (wantToCrouch)
+        if (!wantToCrouch)
         {
-            isCrouching = true;
-            isStandingUp = false;
+            Vector3 rayStart = transform.position + Vector3.up * controller.height;
+            float rayDistance = standHeight - controller.height;
 
+            if (Physics.Raycast(rayStart, Vector3.up, rayDistance))
+                return;
+        }
+
+        isCrouching = wantToCrouch;
+
+        if (isCrouching)
+        {
             speed /= crouchMod;
-
             controller.height = crouchHeight;
             controller.center = new Vector3(
                 controller.center.x,
@@ -128,14 +119,9 @@ public class playerController : MonoBehaviour, IDamage
         }
         else
         {
-            Vector3 rayStart = transform.position + Vector3.up * controller.height;
-            float rayDistance = standHeight - controller.height;
-
-            if (Physics.Raycast(rayStart, Vector3.up, rayDistance))
-                return;
-
-            isCrouching = false;
-            isStandingUp = true;
+            speed *= crouchMod;
+            controller.height = standHeight;
+            controller.center = playerCenterOrig;
         }
     }
 
@@ -156,57 +142,4 @@ public class playerController : MonoBehaviour, IDamage
         );
     }
 
-    void standUpLerp()
-    {
-        if (!isStandingUp)
-            return;
-
-        controller.height = Mathf.Lerp(
-            controller.height,
-            standHeight,
-            standLerpSpeed * Time.deltaTime
-        );
-
-        controller.center = Vector3.Lerp(
-            controller.center,
-            playerCenterOrig,
-            standLerpSpeed * Time.deltaTime
-        );
-
-        if (Mathf.Abs(controller.height - standHeight) < 0.01f)
-        {
-            controller.height = standHeight;
-            controller.center = playerCenterOrig;
-            speed *= crouchMod;
-            isStandingUp = false;
-        }
-    }
-
-    void shoot()
-    {
-        shootTimer = 0;
-
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
-        {
-            Debug.Log(hit.collider.name);
-
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-            if (dmg != null)
-            {
-                dmg.takeDamage(shootDamage);
-            }
-        }
-    }
-
-    public void takeDamage(int amount)
-    {
-        HP -= amount;
-        //TODO waiting on damage HP & flash material Matt
-
-        if (HP <= 0)
-        {
-            gameManager.instance.youLose();
-        }
-    }
 }
