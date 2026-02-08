@@ -61,6 +61,7 @@ public class playerControlller : MonoBehaviour
         {
             playerVeloc.y = jumpSpeed;
             jumpCount++;
+            isCrouching = false;
         }
     }
 
