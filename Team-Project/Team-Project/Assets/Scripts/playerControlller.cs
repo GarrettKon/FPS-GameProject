@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class playerControlller : MonoBehaviour
 {
@@ -141,4 +142,21 @@ public class playerControlller : MonoBehaviour
         );
     }
 
+    public void takeDamage(int amount)
+    {
+        HP -= amount;
+        updatePlayerUI();
+        StartCoroutine(flashScreen());
+    }
+    IEnumerator flashScreen()
+    {
+        gameManager.instance.playerDamageFlash.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        gameManager.instance.playerDamageFlash.SetActive(false);
+    }
+
+    public void updatePlayerUI()
+    {
+        gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
+    }
 }
