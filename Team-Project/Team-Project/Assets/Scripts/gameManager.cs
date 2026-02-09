@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 
 
@@ -82,6 +83,40 @@ public class gameManager : MonoBehaviour
 
     public void updateKeyFound()
     {
-        keyFoundText.text = keyFound.ToString();
+        if (!keyFound)
+            return;
+
+        if (keyFlashRoutine != null)
+            StopCoroutine(keyFlashRoutine);
+
+        keyFlashRoutine = StartCoroutine(FlashKeyFound());
+    }
+
+    Coroutine keyFlashRoutine;
+
+    IEnumerator FlashKeyFound()
+    {
+        keyFoundText.gameObject.SetActive(true);
+
+        float timer = 0f;
+        float duration = 1.5f;
+        float speed = 6f;
+
+        Color c = keyFoundText.color;
+
+        while (timer < duration)
+        {
+            c.a = Mathf.Abs(Mathf.Sin(timer * speed));
+            keyFoundText.color = c;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        keyFoundText.gameObject.SetActive(false);
+        c.a = 1f;
+        keyFoundText.color = c;
+
+        keyFlashRoutine = null;
     }
 }

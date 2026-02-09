@@ -13,7 +13,6 @@ public class foundKey : MonoBehaviour
             gameManager.instance.updateKeyFound();
             door.SetActive(false);
             gameObject.SetActive(false);
-            //todo Pop up noting the door is now open
         }
     }
 }
