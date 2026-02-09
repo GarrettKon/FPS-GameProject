@@ -293,7 +293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 148, y: -56}
+  m_AnchoredPosition: {x: 148.7, y: -91.1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &125815805408627992
@@ -450,7 +450,7 @@ MonoBehaviour:
   menuLose: {fileID: 0}
   enemyCountText: {fileID: 5974499090854033888}
   keyFoundText: {fileID: 3810170202601088336}
-  healthBar: {fileID: 4832251636109709175}
+  healthBar: {fileID: 1698330974466314702}
   playerDamageFlash: {fileID: 5471187563155675201}
   player: {fileID: 0}
   playerScript: {fileID: 0}
@@ -743,8 +743,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279242768
-  m_fontColor: {r: 0.06289297, g: 0.06229964, b: 0.06229964, a: 1}
+    rgba: 4278868684
+  m_fontColor: {r: 0.7987421, g: 0.35278785, b: 0.037676413, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -955,8 +955,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279242768
-  m_fontColor: {r: 0.06289297, g: 0.06229964, b: 0.06229964, a: 1}
+    rgba: 4279133908
+  m_fontColor: {r: 0.8301887, g: 0.3981171, b: 0.054823663, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
