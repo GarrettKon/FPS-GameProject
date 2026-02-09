@@ -15,6 +15,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] TMP_Text enemyCountText;
+    [SerializeField] TMP_Text keyFoundText;
     public Image healthBar;
     public GameObject playerDamageFlash;
 
@@ -75,5 +76,10 @@ public class gameManager : MonoBehaviour
     {
         enemyCountNumber -= amount;
         enemyCountText.text = enemyCountNumber.ToString("F0");
+    }
+
+    public void updateKeyFound()
+    {
+
     }
 }
