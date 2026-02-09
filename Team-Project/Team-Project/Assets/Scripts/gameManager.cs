@@ -40,7 +40,38 @@ public class gameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //TODO pause menu code Garrett
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if(menuActive == null)
+            {
+                statePause();
+                menuActive = menuPause;
+                menuActive.SetActive(true);
+            }
+            else if(menuActive == menuPause)
+            {
+                stateUnPause();
+            }
+        }
+    }
+
+    public void statePause()
+    {
+        isPaused = true;
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void stateUnPause()
+    {
+        isPaused = false;
+        Time.timeScale = timeScaleOrig;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
+        menuActive.SetActive(false);
+        menuActive = null;
+
     }
 
     public void updateGameGoal()
@@ -53,13 +84,20 @@ public class gameManager : MonoBehaviour
     
     public void youWin()
     {
-        //you win menu code Garrett
-
+      
+         statePause();
+         menuActive = menuWin;
+         menuActive.SetActive(true);
+        
     }
 
     public void youLose()
     {
-        //you lose menu code Garrett
+        statePause();
+        menuActive = menuLose;
+        menuActive.SetActive(true);
 
     }
+
+   
 }
