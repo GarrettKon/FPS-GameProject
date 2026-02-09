@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class playerController : MonoBehaviour
+public class playerController : MonoBehaviour, IDamage
 {
     [SerializeField] CharacterController controller;
 
@@ -47,6 +47,7 @@ public class playerController : MonoBehaviour
         cameraStartPos = playerCamera.localPosition;
         standHeight = controller.height;
         playerCenterOrig = controller.center;
+        speedOrig = speed;
     }
 
     // Update is called once per frame
@@ -79,7 +80,7 @@ public class playerController : MonoBehaviour
         controller.Move(playerVeloc * Time.deltaTime);
         playerVeloc.y -= gravity * Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        if (Input.GetButtonDown("Fire1") && shootTimer >= shootRate)
             shoot();
     }
 
@@ -107,6 +108,9 @@ public class playerController : MonoBehaviour
 
     void crouch()
     {
+        if (isStandingUp)
+            return;
+
         if (!Input.GetButtonDown("Crouch"))
             return;
 
@@ -117,7 +121,7 @@ public class playerController : MonoBehaviour
             isCrouching = true;
             isStandingUp = false;
 
-            speed /= crouchMod;
+            speed = speedOrig / crouchMod;
 
             controller.height = crouchHeight;
             controller.center = new Vector3(
@@ -177,7 +181,7 @@ public class playerController : MonoBehaviour
         {
             controller.height = standHeight;
             controller.center = playerCenterOrig;
-            speed *= crouchMod;
+            speed = speedOrig;
             isStandingUp = false;
         }
     }
