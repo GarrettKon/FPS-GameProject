@@ -23,7 +23,6 @@ public class gameManager : MonoBehaviour
     public playerController playerScript;
 
 
-    //TODO HP bar + Damage Flash Matt
 
     int enemyCountNumber;
     public bool isPaused;
@@ -31,6 +30,7 @@ public class gameManager : MonoBehaviour
 
     //will be set to true in another script when player enters collider for the goal Miguel
     public bool gameGoalReached;
+    public bool keyFound;
     GameObject goalObject;
 
 
@@ -40,8 +40,10 @@ public class gameManager : MonoBehaviour
         instance = this;
 
         gameGoalReached = false;
+        keyFound = false;
         timeScaleOrig = Time.timeScale;
 
+        updateKeyFound();
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
     }
@@ -80,6 +82,6 @@ public class gameManager : MonoBehaviour
 
     public void updateKeyFound()
     {
-
+        keyFoundText.text = keyFound.ToString();
     }
 }
