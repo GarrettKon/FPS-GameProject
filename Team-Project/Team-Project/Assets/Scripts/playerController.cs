@@ -47,6 +47,7 @@ public class playerController : MonoBehaviour, IDamage
         cameraStartPos = playerCamera.localPosition;
         standHeight = controller.height;
         playerCenterOrig = controller.center;
+        speedOrig = speed;
     }
 
     // Update is called once per frame
@@ -107,6 +108,9 @@ public class playerController : MonoBehaviour, IDamage
 
     void crouch()
     {
+        if (isStandingUp)
+            return;
+
         if (!Input.GetButtonDown("Crouch"))
             return;
 
@@ -117,7 +121,7 @@ public class playerController : MonoBehaviour, IDamage
             isCrouching = true;
             isStandingUp = false;
 
-            speed /= crouchMod;
+            speed = speedOrig / crouchMod;
 
             controller.height = crouchHeight;
             controller.center = new Vector3(
@@ -177,7 +181,7 @@ public class playerController : MonoBehaviour, IDamage
         {
             controller.height = standHeight;
             controller.center = playerCenterOrig;
-            speed *= crouchMod;
+            speed = speedOrig;
             isStandingUp = false;
         }
     }
