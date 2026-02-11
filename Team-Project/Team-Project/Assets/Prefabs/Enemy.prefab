@@ -176,6 +176,9 @@ MonoBehaviour:
   agent: {fileID: 6114458619507565888}
   HP: 3
   faceTargetSpeed: 12
+  FOV: 90
+  roamDist: 5
+  roamPauseTime: 3
   bullet: {fileID: 8347909059093798250, guid: 2629a38bf4202e34f9ff11ac3e3a0e46, type: 3}
   shootRate: 0.3
   shootPos: {fileID: 1814336423791059878}
