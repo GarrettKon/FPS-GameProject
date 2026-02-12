@@ -91,6 +91,7 @@ public class playerController : MonoBehaviour, IDamage
             playerVeloc.y = jumpSpeed;
             jumpCount++;
             isCrouching = false;
+            isStandingUp = true;
         }
     }
 
