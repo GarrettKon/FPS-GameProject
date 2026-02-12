@@ -36,6 +36,7 @@ public class enemyAI : MonoBehaviour, IDamage
     void Start()
     {
         colorOrig = model.material.color;
+        gameManager.instance.updateEnemyCount(1);
         stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
     }
@@ -46,7 +47,9 @@ public class enemyAI : MonoBehaviour, IDamage
         shootTimer += Time.deltaTime;
 
         if (agent.remainingDistance < 0.01f)
+        { 
             roamTimer += Time.deltaTime;
+        }
 
         if (playerInTrigger && canSeePlayer())
         {
@@ -94,7 +97,9 @@ public class enemyAI : MonoBehaviour, IDamage
                 agent.SetDestination(gameManager.instance.player.transform.position);
 
                 if (agent.remainingDistance <= agent.stoppingDistance)
+                {
                     faceTarget();
+                }
 
                 if (shootTimer >= shootRate)
                 {
@@ -143,6 +148,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            gameManager.instance.updateEnemyCount(-1);
             Destroy(gameObject);
         }
 
