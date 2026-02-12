@@ -4,7 +4,10 @@ public class foundKey : MonoBehaviour
 {
 
     [SerializeField] GameObject door;
-
+    void Start()
+    {
+        door = GameObject.FindWithTag("Exit");
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
