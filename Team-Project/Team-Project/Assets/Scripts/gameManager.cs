@@ -38,13 +38,12 @@ public class gameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        instance = this;
-
         gameGoalReached = false;
         keyFound = false;
-        timeScaleOrig = Time.timeScale;
-
         updateKeyFound();
+
+        instance = this;
+        timeScaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
     }
@@ -112,7 +111,7 @@ public class gameManager : MonoBehaviour
 
     public void updateEnemyCount(int amount)
     {
-        enemyCountNumber -= amount;
+        enemyCountNumber += amount;
         enemyCountText.text = enemyCountNumber.ToString("F0");
     }
 

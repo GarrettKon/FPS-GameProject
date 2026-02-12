@@ -982,14 +982,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 551932747574776953, guid: 471a4c3cc1981164983ceb4efbf46af2, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 551932747574776953, guid: 471a4c3cc1981164983ceb4efbf46af2, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 6395412746940124784, guid: 471a4c3cc1981164983ceb4efbf46af2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.25
@@ -3922,17 +3914,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110039136}
   m_Mesh: {fileID: -8569513391688025148, guid: 20f2ea214cfe0d748b1b4b8ad965af69, type: 3}
---- !u!114 &117529030 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6388755417413245846, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-  m_PrefabInstance: {fileID: 1052594557}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &121463157
 GameObject:
   m_ObjectHideFlags: 0
@@ -17566,11 +17547,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522943304}
   m_Mesh: {fileID: 4300002, guid: b3c8bb8b6364eff4794deec64d2e92f7, type: 3}
---- !u!1 &529728454 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6604388460303456676, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-  m_PrefabInstance: {fileID: 1052594557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &534464770
 GameObject:
   m_ObjectHideFlags: 0
@@ -32227,22 +32203,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1951857714578007863, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-      propertyPath: menuWin
-      value: 
-      objectReference: {fileID: 529728454}
-    - target: {fileID: 1951857714578007863, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-      propertyPath: menuLose
-      value: 
-      objectReference: {fileID: 2065448776}
-    - target: {fileID: 1951857714578007863, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-      propertyPath: menuPause
-      value: 
-      objectReference: {fileID: 1095941611}
-    - target: {fileID: 1951857714578007863, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-      propertyPath: enemyCountText
-      value: 
-      objectReference: {fileID: 117529030}
     - target: {fileID: 2002356557889343141, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -32326,10 +32286,6 @@ PrefabInstance:
     - target: {fileID: 2446836921597148926, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178088958433559438, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-      propertyPath: m_text
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32788,11 +32744,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091773454}
   m_Mesh: {fileID: -8569513391688025148, guid: 20f2ea214cfe0d748b1b4b8ad965af69, type: 3}
---- !u!1 &1095941611 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8206219488570541121, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-  m_PrefabInstance: {fileID: 1052594557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1096394540
 GameObject:
   m_ObjectHideFlags: 0
@@ -63355,11 +63306,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6e945e6e5dab24498424ce3bd37d26d, type: 3}
---- !u!1 &2065448776 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5626469996959448739, guid: 13f93743ad8362a459b63c1c534d559e, type: 3}
-  m_PrefabInstance: {fileID: 1052594557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2072994758
 GameObject:
   m_ObjectHideFlags: 0
