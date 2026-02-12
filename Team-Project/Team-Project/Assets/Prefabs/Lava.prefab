@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4442012585031906540}
+  - component: {fileID: 3815056574499427670}
   - component: {fileID: 2687602153783463579}
   - component: {fileID: 4566818304677169497}
   - component: {fileID: 2368589581191936677}
@@ -30,11 +31,30 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 24.75, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 9, y: 1, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3815056574499427670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214251232386597524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 889ef9f7c5b03364d9bb20a4ce37fe7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::damage
+  type: 2
+  rb: {fileID: 0}
+  damageAmount: 1
+  damageRate: 1
+  speed: 0
+  destroyTime: 0
+  hitEffect: {fileID: 0}
 --- !u!114 &2687602153783463579
 MonoBehaviour:
   m_ObjectHideFlags: 0
