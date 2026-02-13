@@ -65658,7 +65658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5247828728474822047, guid: 688ec7aa4758f0e4e9e979035959313a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.52
+      value: 3.293
       objectReference: {fileID: 0}
     - target: {fileID: 5247828728474822047, guid: 688ec7aa4758f0e4e9e979035959313a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -65691,10 +65691,6 @@ PrefabInstance:
     - target: {fileID: 5247828728474822047, guid: 688ec7aa4758f0e4e9e979035959313a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262270189899772692, guid: 688ec7aa4758f0e4e9e979035959313a, type: 3}
-      propertyPath: door
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
