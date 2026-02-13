@@ -52,6 +52,7 @@ MonoBehaviour:
   controller: {fileID: 5746976823923243006}
   HP: 40
   speed: 6
+  baseSpeed: 6
   sprintMod: 2
   jumpSpeed: 12
   jumpMax: 1
