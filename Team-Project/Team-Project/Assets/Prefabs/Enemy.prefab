@@ -180,7 +180,7 @@ MonoBehaviour:
   roamDist: 5
   roamPauseTime: 3
   bullet: {fileID: 8347909059093798250, guid: 2629a38bf4202e34f9ff11ac3e3a0e46, type: 3}
-  shootRate: 0.3
+  shootRate: 0.5
   shootPos: {fileID: 1814336423791059878}
 --- !u!195 &6114458619507565888
 NavMeshAgent:
