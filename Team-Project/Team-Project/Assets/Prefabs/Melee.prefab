@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2561230561872757158}
   - component: {fileID: 8567476968393870114}
   - component: {fileID: 8289540994385961899}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ MonoBehaviour:
   damageAmount: 1
   damageRate: 0
   speed: 0
-  destroyTime: 3
+  destroyTime: 0.1
   hitEffect: {fileID: 0}
 --- !u!54 &8289540994385961899
 Rigidbody:
