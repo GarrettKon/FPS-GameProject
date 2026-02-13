@@ -7,6 +7,7 @@ public class playerController : MonoBehaviour, IDamage
 
     [SerializeField] int HP;
     [SerializeField] int speed;
+    [SerializeField] int baseSpeed;
     [SerializeField] int sprintMod;
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMax;
@@ -26,12 +27,12 @@ public class playerController : MonoBehaviour, IDamage
 
     int jumpCount;
     int HPOrig;
-    int speedOrig;
 
     float shootTimer;
 
     bool isCrouching;
     bool isStandingUp;
+    bool isSprinting;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -47,7 +48,7 @@ public class playerController : MonoBehaviour, IDamage
         cameraStartPos = playerCamera.localPosition;
         standHeight = controller.height;
         playerCenterOrig = controller.center;
-        speedOrig = speed;
+        baseSpeed = speed;
     }
 
     // Update is called once per frame
@@ -73,6 +74,15 @@ public class playerController : MonoBehaviour, IDamage
         }
 
         moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+
+        speed = baseSpeed;
+
+        if (isCrouching)
+            speed /= crouchMod;
+
+        if (isSprinting)
+            speed *= sprintMod;
+
         controller.Move(moveDir * speed * Time.deltaTime);
 
         jump();
@@ -98,13 +108,10 @@ public class playerController : MonoBehaviour, IDamage
     void sprint()
     {
         if (Input.GetButtonDown("Sprint"))
-        {
-            speed *= sprintMod;
-        }
-        else if (Input.GetButtonUp("Sprint"))
-        {
-            speed /= sprintMod;
-        }
+            isSprinting = true;
+
+        if (Input.GetButtonUp("Sprint"))
+            isSprinting = false;
     }
 
     void crouch()
@@ -121,8 +128,6 @@ public class playerController : MonoBehaviour, IDamage
         {
             isCrouching = true;
             isStandingUp = false;
-
-            speed = speedOrig / crouchMod;
 
             controller.height = crouchHeight;
             controller.center = new Vector3(
@@ -182,7 +187,6 @@ public class playerController : MonoBehaviour, IDamage
         {
             controller.height = standHeight;
             controller.center = playerCenterOrig;
-            speed = speedOrig;
             isStandingUp = false;
         }
     }
