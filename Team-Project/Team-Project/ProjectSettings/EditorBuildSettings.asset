@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Demo.unity
     guid: 65631f8099d95f645b8f3f1e32300096
+  - enabled: 1
+    path: Assets/Scenes/PrefabTesting.unity
+    guid: c3084cc9628f47d4284f74f04a3834b4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
