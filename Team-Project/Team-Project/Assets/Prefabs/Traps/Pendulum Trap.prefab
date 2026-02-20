@@ -68,7 +68,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4517609741405437877}
-  - component: {fileID: 3875561076137193911}
   - component: {fileID: 5822400712679354914}
   - component: {fileID: 8688257169468179504}
   - component: {fileID: 5010141194311293103}
@@ -95,21 +94,6 @@ Transform:
   - {fileID: 6501771413179460079}
   m_Father: {fileID: 4405184362532379086}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &3875561076137193911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4150732440899525657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd24e1de8efa3c46b73672efff92d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::trapDamage
-  damageAmount: 10
-  standDamageInterval: 3
-  trapController: {fileID: 0}
 --- !u!33 &5822400712679354914
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -184,7 +168,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -339,7 +323,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 8
   m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_AngularDamping: 0.2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -391,7 +375,7 @@ HingeJoint:
     contactDistance: 0
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
@@ -404,7 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1306651260967827203}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pendulum Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,5 +479,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1.05}
   m_Center: {x: 0, y: 0, z: 0}

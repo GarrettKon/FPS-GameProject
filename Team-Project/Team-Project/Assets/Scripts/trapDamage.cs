@@ -10,7 +10,7 @@ public class trapDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!trapController.IsActive())
+        if (!IsTrapActive())
             return;
 
         if (other.CompareTag("Player"))
@@ -28,7 +28,7 @@ public class trapDamage : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!trapController.IsActive())
+        if (!IsTrapActive())
             return;
 
         if (!other.CompareTag("Player"))
@@ -50,5 +50,13 @@ public class trapDamage : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             standTimer = 0;
+    }
+
+    private bool IsTrapActive()
+    {
+        if (trapController == null)
+            return true;
+
+        return trapController.IsActive();
     }
 }

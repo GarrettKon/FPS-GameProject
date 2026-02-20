@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2454829328118219656}
   - component: {fileID: 1347106335834849525}
   - component: {fileID: 1609555401033524637}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Blade Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 4833520891496001046}
   m_Layer: 10
   m_Name: Pillar Trap
-  m_TagString: Pillar Blade
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 8289569048791706792}
   - component: {fileID: 5107504424660102106}
   - component: {fileID: 579331129907554066}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Pillar Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,9 +226,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2970696466094486832}
   - component: {fileID: 3878012782202917900}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Blade Pivot
-  m_TagString: Pillar Blade
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::timedBladeTrap
   rotateSpeed: 100
-  activeTime: 10
+  activeTime: 5
   pauseTime: 0.5
 --- !u!1 &5366591043625742363
 GameObject:
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 2154650213388491487}
   - component: {fileID: 968648581438699357}
   - component: {fileID: 2003163716681674765}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Blade Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 5747448621589796397}
   - component: {fileID: 3749041946617955577}
   - component: {fileID: 6014493448635919313}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Blade Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,9 +417,9 @@ GameObject:
   - component: {fileID: 7398972719238646851}
   - component: {fileID: 2781383427279551622}
   - component: {fileID: 788055787131264282}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Low Blade
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -530,9 +530,9 @@ GameObject:
   - component: {fileID: 8619926546304960866}
   - component: {fileID: 3986685645558765687}
   - component: {fileID: 1222579095254195920}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Mid Blade(1)
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 2093912676626229328}
   - component: {fileID: 5492812920148826874}
   - component: {fileID: 5646635495901609059}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Blade Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -712,9 +712,9 @@ GameObject:
   - component: {fileID: 3104342420158068363}
   - component: {fileID: 7599877023652205053}
   - component: {fileID: 1612288008613135816}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: High Blade
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -825,9 +825,9 @@ GameObject:
   - component: {fileID: 156751470344819981}
   - component: {fileID: 6857713443141360728}
   - component: {fileID: 1202575098757581960}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Mid Blade
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
