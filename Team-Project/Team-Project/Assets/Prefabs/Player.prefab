@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerControlller
   controller: {fileID: 5746976823923243006}
-  HP: 40
+  HP: 100
   speed: 6
   baseSpeed: 6
   sprintMod: 2
@@ -67,6 +67,9 @@ MonoBehaviour:
   shootDamage: 1
   shootDist: 20
   shootRate: 0.5
+  invulnDuration: 0.75
+  knockbackForce: 5
+  knockbackUpForce: 2
 --- !u!143 &5746976823923243006
 CharacterController:
   m_ObjectHideFlags: 0

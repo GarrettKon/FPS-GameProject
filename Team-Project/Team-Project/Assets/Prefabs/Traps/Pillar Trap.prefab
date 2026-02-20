@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd24e1de8efa3c46b73672efff92d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::trapDamage
-  damageAmount: 10
+  damageAmount: 3
+  standDamageInterval: 0
   trapController: {fileID: 3878012782202917900}
 --- !u!65 &1609555401033524637
 BoxCollider:
@@ -312,6 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::trapDamage
   damageAmount: 10
+  standDamageInterval: 1
   trapController: {fileID: 3878012782202917900}
 --- !u!65 &2003163716681674765
 BoxCollider:
@@ -379,7 +381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd24e1de8efa3c46b73672efff92d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::trapDamage
-  damageAmount: 10
+  damageAmount: 3
+  standDamageInterval: 0
   trapController: {fileID: 3878012782202917900}
 --- !u!65 &6014493448635919313
 BoxCollider:
@@ -673,7 +676,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd24e1de8efa3c46b73672efff92d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::trapDamage
-  damageAmount: 10
+  damageAmount: 3
+  standDamageInterval: 0
   trapController: {fileID: 3878012782202917900}
 --- !u!65 &5646635495901609059
 BoxCollider:

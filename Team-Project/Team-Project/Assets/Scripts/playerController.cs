@@ -25,6 +25,10 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
 
+    [SerializeField] float invulnDuration;
+    [SerializeField] float knockbackForce;
+    [SerializeField] float knockbackUpForce;
+
     int jumpCount;
     int HPOrig;
 
@@ -33,6 +37,8 @@ public class playerController : MonoBehaviour, IDamage
     bool isCrouching;
     bool isStandingUp;
     bool isSprinting;
+
+    bool isInvulnerable;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -210,10 +216,14 @@ public class playerController : MonoBehaviour, IDamage
 
     public void takeDamage(int amount)
     {
+        if (isInvulnerable)
+            return;
+
         HP -= amount;
-        //TODO waiting on damage HP & flash material Matt
         updatePlayerUI();
+
         StartCoroutine(flashScreen());
+        StartCoroutine(Invulnerability());
 
         if (HP <= 0)
         {
@@ -221,11 +231,28 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
+    public void knockback(Vector3 knockbackPos)
+    {
+        Vector3 knockDir = (transform.position - knockbackPos).normalized;
+
+        knockDir.y = 0;
+
+        playerVeloc += knockDir * knockbackForce;
+        playerVeloc.y = knockbackUpForce;
+    }
+
     IEnumerator flashScreen()
     {
         gameManager.instance.playerDamageFlash.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         gameManager.instance.playerDamageFlash.SetActive(false);
+    }
+
+    IEnumerator Invulnerability()
+    {
+        isInvulnerable = true;
+        yield return new WaitForSeconds(invulnDuration);
+        isInvulnerable = false;
     }
 
     public void updatePlayerUI()
