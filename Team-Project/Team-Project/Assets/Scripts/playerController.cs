@@ -21,6 +21,10 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
 
+    [SerializeField] GameObject arrowPrefab;
+    [SerializeField] Transform firePoint;
+    [SerializeField] float shootForce;
+
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
@@ -201,17 +205,14 @@ public class playerController : MonoBehaviour, IDamage
     {
         shootTimer = 0;
 
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
-        {
-            Debug.Log(hit.collider.name);
+        GameObject arrow = Instantiate(
+            arrowPrefab,
+            firePoint.position,
+            Quaternion.LookRotation(Camera.main.transform.forward)
+        );
 
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-            if (dmg != null)
-            {
-                dmg.takeDamage(shootDamage);
-            }
-        }
+        Rigidbody rigBod = arrow.GetComponent<Rigidbody>();
+        rigBod.AddForce(Camera.main.transform.forward * shootForce, ForceMode.Impulse);
     }
 
     public void takeDamage(int amount)
