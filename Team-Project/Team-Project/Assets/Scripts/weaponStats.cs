@@ -1,24 +1,32 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Weapon", menuName = "Weapons/Weapon Stats")]
 public class weaponStats : ScriptableObject
 {
     public enum WeaponType
     {
         Bow,
-        Melee
+        OneHandSword,
+        TwoHandSword,
+        OneHandAxe,
+        TwoHandAxe
     }
 
     public WeaponType weaponType;
+
+    [Header("Damage")]
     public int damage;
-    public float shootForce;
+    public float attackRate;
+    public float attackDistance;
+
+    [Header("Bow Only")]
+    public float projectileForce;
+
+    [Header("Visual")]
     public GameObject weaponModel;
-
-    [Range(1, 10)] public int shootDamage;
-    [Range(15, 1000)] public int shootDist;
-    [Range(0.1f, 2f)] public float shootRate;
-    [Range(5, 50)] public int arrowMax;
-
     public ParticleSystem hitEffect;
+
+    [Header("Audio")]
     public AudioClip[] shootSound;
     [Range(0, 1)] public float shootSoundVol;
 }

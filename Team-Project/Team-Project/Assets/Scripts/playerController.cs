@@ -45,8 +45,9 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     bool isCrouching;
     bool isStandingUp;
     bool isSprinting;
-
     bool isInvulnerable;
+
+    GameObject currentWeaponInstance;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -104,13 +105,12 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         controller.Move(playerVeloc * Time.deltaTime);
         playerVeloc.y -= gravity * Time.deltaTime;
 
-        if (Input.GetButtonDown("Fire1") && weaponList.Count > 0 && shootTimer >= shootRate)
+        if (weaponList.Count > 0 && Input.GetButtonDown("Fire1") && shootTimer >= weaponList[weaponListPos].attackRate)
         {
             attack();
         }
 
         selectWeapon();
-        reload();
     }
 
     void jump()
@@ -149,11 +149,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
             isStandingUp = false;
 
             controller.height = crouchHeight;
-            controller.center = new Vector3(
-                controller.center.x,
-                crouchHeight / 2f,
-                controller.center.z
-            );
+            controller.center = new Vector3(controller.center.x, crouchHeight / 2f, controller.center.z);
         }
         else
         {
@@ -217,65 +213,41 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         weaponStats current = weaponList[weaponListPos];
 
         if (current.weaponType == weaponStats.WeaponType.Bow)
-        {
-            FireArrow();
-        }
+            FireArrow(current);
         else
-        {
-            MeleeAttack();
-        }
+            MeleeAttack(current);
     }
 
-    void FireArrow()
+    void FireArrow(weaponStats current)
     {
-        weaponStats current = weaponList[weaponListPos];
-
-        if (currentAmmo <= 0)
+        if (firePoint == null)
+        {
+            Debug.LogWarning("No FirePoint assigned!");
             return;
-
-        currentAmmo--;
+        }
 
         GameObject arrow = Instantiate(
             arrowPrefab,
             firePoint.position,
-            Quaternion.LookRotation(Camera.main.transform.forward)
+            firePoint.rotation
         );
 
         Rigidbody rb = arrow.GetComponent<Rigidbody>();
+
         if (rb != null)
-            rb.AddForce(Camera.main.transform.forward * current.shootForce, ForceMode.Impulse);
+            rb.AddForce(firePoint.forward * current.projectileForce, ForceMode.Impulse);
     }
 
-    void reload()
+    void MeleeAttack(weaponStats current)
     {
-        if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
-        {
-            weaponStats current = weaponList[weaponListPos];
-
-            if (current.weaponType == weaponStats.WeaponType.Bow)
-            {
-                currentAmmo = current.arrowMax;
-            }
-        }
-    }
-
-    void MeleeAttack()
-    {
-        weaponStats current = weaponList[weaponListPos];
-
         RaycastHit hit;
 
-        if (Physics.Raycast(Camera.main.transform.position,
-                            Camera.main.transform.forward,
-                            out hit,
-                            current.shootDist))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, current.attackDistance))
         {
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
             if (dmg != null)
-            {
                 dmg.takeDamage(current.damage);
-            }
         }
     }
 
@@ -337,20 +309,20 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         weaponStats current = weaponList[weaponListPos];
 
-        shootDamage = current.shootDamage;
-        shootDist = current.shootDist;
-        shootRate = current.shootRate;
+        if (currentWeaponInstance != null)
+            Destroy(currentWeaponInstance);
 
-        if (weaponList[weaponListPos].weaponType == weaponStats.WeaponType.Bow)
+        currentWeaponInstance = Instantiate(
+            current.weaponModel,
+            weaponModel.transform.position,
+            weaponModel.transform.rotation,
+            weaponModel.transform
+        );
+
+        if (current.weaponType == weaponStats.WeaponType.Bow)
         {
-            currentAmmo = weaponList[weaponListPos].arrowMax;
+            firePoint = currentWeaponInstance.transform.Find("Fire Point");
         }
-
-        weaponModel.GetComponent<MeshFilter>().sharedMesh =
-            current.weaponModel.GetComponent<MeshFilter>().sharedMesh;
-
-        weaponModel.GetComponent<MeshRenderer>().sharedMaterial =
-            current.weaponModel.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     void selectWeapon()
