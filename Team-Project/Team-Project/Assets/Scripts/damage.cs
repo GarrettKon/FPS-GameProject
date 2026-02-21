@@ -65,7 +65,4 @@ public class damage : MonoBehaviour
         yield return new WaitForSeconds(damageRate);
         isDamaging = false;
     }
-
-
-
 }

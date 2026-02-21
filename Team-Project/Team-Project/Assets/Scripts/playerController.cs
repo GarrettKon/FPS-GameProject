@@ -1,7 +1,8 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerController : MonoBehaviour, IDamage, IPickup
 {
     [SerializeField] CharacterController controller;
 
@@ -21,6 +22,8 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
 
+    [SerializeField] List<weaponStats> weaponList = new List<weaponStats>();
+    [SerializeField] GameObject weaponModel;
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] Transform firePoint;
     [SerializeField] float shootForce;
@@ -35,7 +38,8 @@ public class playerController : MonoBehaviour, IDamage
 
     int jumpCount;
     int HPOrig;
-
+    int weaponListPos;
+    int currentAmmo;
     float shootTimer;
 
     bool isCrouching;
@@ -100,8 +104,13 @@ public class playerController : MonoBehaviour, IDamage
         controller.Move(playerVeloc * Time.deltaTime);
         playerVeloc.y -= gravity * Time.deltaTime;
 
-        if (Input.GetButtonDown("Fire1") && shootTimer >= shootRate)
-            shoot();
+        if (Input.GetButtonDown("Fire1") && weaponList.Count > 0 && shootTimer >= shootRate)
+        {
+            attack();
+        }
+
+        selectWeapon();
+        reload();
     }
 
     void jump()
@@ -201,9 +210,30 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
-    void shoot()
+    void attack()
     {
         shootTimer = 0;
+
+        weaponStats current = weaponList[weaponListPos];
+
+        if (current.weaponType == weaponStats.WeaponType.Bow)
+        {
+            FireArrow();
+        }
+        else
+        {
+            MeleeAttack();
+        }
+    }
+
+    void FireArrow()
+    {
+        weaponStats current = weaponList[weaponListPos];
+
+        if (currentAmmo <= 0)
+            return;
+
+        currentAmmo--;
 
         GameObject arrow = Instantiate(
             arrowPrefab,
@@ -211,8 +241,42 @@ public class playerController : MonoBehaviour, IDamage
             Quaternion.LookRotation(Camera.main.transform.forward)
         );
 
-        Rigidbody rigBod = arrow.GetComponent<Rigidbody>();
-        rigBod.AddForce(Camera.main.transform.forward * shootForce, ForceMode.Impulse);
+        Rigidbody rb = arrow.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddForce(Camera.main.transform.forward * current.shootForce, ForceMode.Impulse);
+    }
+
+    void reload()
+    {
+        if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+        {
+            weaponStats current = weaponList[weaponListPos];
+
+            if (current.weaponType == weaponStats.WeaponType.Bow)
+            {
+                currentAmmo = current.arrowMax;
+            }
+        }
+    }
+
+    void MeleeAttack()
+    {
+        weaponStats current = weaponList[weaponListPos];
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.transform.position,
+                            Camera.main.transform.forward,
+                            out hit,
+                            current.shootDist))
+        {
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+            if (dmg != null)
+            {
+                dmg.takeDamage(current.damage);
+            }
+        }
     }
 
     public void takeDamage(int amount)
@@ -259,5 +323,47 @@ public class playerController : MonoBehaviour, IDamage
     public void updatePlayerUI()
     {
         gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
+    }
+
+    public void getWeaponStats(weaponStats weapon)
+    {
+        weaponList.Add(weapon);
+        weaponListPos = weaponList.Count - 1;
+
+        changeWeapon();
+    }
+
+    void changeWeapon()
+    {
+        weaponStats current = weaponList[weaponListPos];
+
+        shootDamage = current.shootDamage;
+        shootDist = current.shootDist;
+        shootRate = current.shootRate;
+
+        if (weaponList[weaponListPos].weaponType == weaponStats.WeaponType.Bow)
+        {
+            currentAmmo = weaponList[weaponListPos].arrowMax;
+        }
+
+        weaponModel.GetComponent<MeshFilter>().sharedMesh =
+            current.weaponModel.GetComponent<MeshFilter>().sharedMesh;
+
+        weaponModel.GetComponent<MeshRenderer>().sharedMaterial =
+            current.weaponModel.GetComponent<MeshRenderer>().sharedMaterial;
+    }
+
+    void selectWeapon()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)
+        {
+            weaponListPos++;
+            changeWeapon();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && weaponListPos > 0)
+        {
+            weaponListPos--;
+            changeWeapon();
+        }
     }
 }

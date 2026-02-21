@@ -5,18 +5,18 @@ public class Arrow : MonoBehaviour
     [SerializeField] int damage;
     [SerializeField] float lifeTime;
 
-    Rigidbody rigBod;
+    Rigidbody rb;
 
     void Start()
     {
-        rigBod = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
-        if (rigBod.linearVelocity.magnitude > 0.1f)
-            transform.forward = rigBod.linearVelocity;
+        if (rb.linearVelocity.magnitude > 0.1f)
+            transform.forward = rb.linearVelocity;
     }
 
     void OnCollisionEnter(Collision other)
@@ -25,7 +25,7 @@ public class Arrow : MonoBehaviour
         if (dmg != null)
             dmg.takeDamage(damage);
 
-        rigBod.isKinematic = true;
+        rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         Destroy(gameObject, 2f);
     }
