@@ -12,7 +12,7 @@ public class weaponStats : ScriptableObject
         TwoHandAxe
     }
 
-    public WeaponType weaponType;
+    public WeaponType weapon;
 
     [Header("Damage")]
     public int damage;

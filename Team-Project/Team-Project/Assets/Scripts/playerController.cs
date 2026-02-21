@@ -23,14 +23,15 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] float standHeight;
 
     [SerializeField] List<weaponStats> weaponList = new List<weaponStats>();
+    [SerializeField] List<GameObject> weaponInstances = new List<GameObject>();
     [SerializeField] GameObject weaponModel;
-    [SerializeField] GameObject arrowPrefab;
+    [SerializeField] GameObject arrow;
     [SerializeField] Transform firePoint;
     [SerializeField] float shootForce;
 
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
+    [SerializeField] int damage;
+    [SerializeField] float attackDist;
+    [SerializeField] float attackRate;
 
     [SerializeField] float invulnDuration;
     [SerializeField] float knockbackForce;
@@ -46,8 +47,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     bool isStandingUp;
     bool isSprinting;
     bool isInvulnerable;
-
-    GameObject currentWeaponInstance;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -80,7 +79,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         shootTimer += Time.deltaTime;
 
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * attackDist, Color.red);
 
         if (controller.isGrounded)
         {
@@ -212,27 +211,31 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
         weaponStats current = weaponList[weaponListPos];
 
-        if (current.weaponType == weaponStats.WeaponType.Bow)
+        if (current.weapon == weaponStats.WeaponType.Bow)
+        {
             FireArrow(current);
+        }
         else
+        {
             MeleeAttack(current);
+        }
     }
 
     void FireArrow(weaponStats current)
     {
-        if (firePoint == null)
+        if (firePoint == null || arrow == null)
         {
-            Debug.LogWarning("No FirePoint assigned!");
+            Debug.LogWarning("Missing firePoint or arrow prefab!");
             return;
         }
 
-        GameObject arrow = Instantiate(
-            arrowPrefab,
+        GameObject spawnedArrow = Instantiate(
+            arrow,
             firePoint.position,
             firePoint.rotation
         );
 
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
+        Rigidbody rb = spawnedArrow.GetComponent<Rigidbody>();
 
         if (rb != null)
             rb.AddForce(firePoint.forward * current.projectileForce, ForceMode.Impulse);
@@ -300,6 +303,17 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     public void getWeaponStats(weaponStats weapon)
     {
         weaponList.Add(weapon);
+
+        // Spawn weapon once
+        GameObject newWeapon = Instantiate(
+            weapon.weaponModel,
+            weaponModel.transform
+        );
+
+        newWeapon.SetActive(false);
+
+        weaponInstances.Add(newWeapon);
+
         weaponListPos = weaponList.Count - 1;
 
         changeWeapon();
@@ -309,19 +323,23 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         weaponStats current = weaponList[weaponListPos];
 
-        if (currentWeaponInstance != null)
-            Destroy(currentWeaponInstance);
+        damage = current.damage;
+        attackDist = current.attackDistance;
+        attackRate = current.attackRate;
 
-        currentWeaponInstance = Instantiate(
-            current.weaponModel,
-            weaponModel.transform.position,
-            weaponModel.transform.rotation,
-            weaponModel.transform
-        );
+        firePoint = null;
 
-        if (current.weaponType == weaponStats.WeaponType.Bow)
+        foreach (Transform child in weaponModel.transform)
         {
-            firePoint = currentWeaponInstance.transform.Find("Fire Point");
+            Destroy(child.gameObject);
+        }
+
+        GameObject spawnedWeapon =
+            Instantiate(current.weaponModel, weaponModel.transform);
+
+        if (current.weapon == weaponStats.WeaponType.Bow)
+        {
+            firePoint = spawnedWeapon.transform.Find("Fire Point");
         }
     }
 
