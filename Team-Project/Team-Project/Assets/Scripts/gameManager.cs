@@ -20,6 +20,8 @@ public class gameManager : MonoBehaviour
     public GameObject shockStatusScreen;
     public GameObject player;
     public playerController playerScript;
+    public GameObject playerSpawnPos;
+    public GameObject checkpointPopup;
 
 
 
@@ -44,6 +46,7 @@ public class gameManager : MonoBehaviour
         timeScaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
+        playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
     // Update is called once per frame

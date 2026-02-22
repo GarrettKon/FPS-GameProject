@@ -10,6 +10,7 @@ TagManager:
   - shockUI
   - poisonUI
   - burn
+  - Spawnpoint
   layers:
   - Default
   - TransparentFX
