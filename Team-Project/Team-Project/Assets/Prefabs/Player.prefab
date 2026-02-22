@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6395412746940124784}
   - component: {fileID: 930533907487530000}
+  - component: {fileID: 7282319835486038073}
   - component: {fileID: 1268618233656728437}
   - component: {fileID: 5746976823923243006}
   - component: {fileID: 4120784547909520415}
@@ -69,7 +70,20 @@ MonoBehaviour:
   knockbackForce: 5
   knockbackUpForce: 2
   statusEndTime: 4
-  weaponController: {fileID: 1268618233656728437}
+  weaponController: {fileID: 7282319835486038073}
+--- !u!114 &7282319835486038073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551932747574776953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687c3c1936ff5ba40827ec0958a28660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponModel: {fileID: 3683878683385463845}
 --- !u!114 &1268618233656728437
 MonoBehaviour:
   m_ObjectHideFlags: 0

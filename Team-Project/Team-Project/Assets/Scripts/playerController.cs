@@ -7,8 +7,7 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     [SerializeField] CharacterController controller;
     public enum statusType { none, poisoned, burned, shocked };
     public statusType status;
-    bool isDamaging;
-
+    
     [SerializeField] int HP;
     [SerializeField] int speed;
     [SerializeField] int baseSpeed;
@@ -67,7 +66,6 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         crouch();
         crouchVisual();
         standUpLerp();
-        endStatus();
         handleStatus();
     }
 
@@ -208,17 +206,6 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
             gameManager.instance.youLose();
         }
     }
-    public void takeDamageStatus(int amount)
-    {
-        HP -= amount;
-
-        updatePlayerUI();
-        StartCoroutine(flashScreen());
-        if (HP <= 0)
-        {
-            gameManager.instance.youLose();
-        }
-    }
 
     public void knockback(Vector3 knockbackPos)
     {
@@ -242,16 +229,38 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
     }
 
+    IEnumerator statusDamage()
+    {
+        while (status != statusType.none && status != statusType.shocked)
+        {
+            takeDamage(statusAmount);
+            yield return new WaitForSeconds(statusRate);
+        }
+    }
+
     public void applyStatus(statusType stat, int damageAmount, float damageRate)
     {
-        if (status == stat || status == statusType.none)
-        {
-            statusTimer = 0;
-            status = stat;
-            gameManager.instance.statusFlash(status);
-            statusAmount = damageAmount;
-            statusRate = damageRate;
-        }
+        status = stat;
+
+        statusTimer = 0;
+        statusAmount = damageAmount;
+        statusRate = damageRate;
+
+        gameManager.instance.statusFlash(status);
+
+        if (status != statusType.shocked)
+            StartCoroutine(statusDamage());
+    }
+
+    void handleStatus()
+    {
+        if (status == statusType.none)
+            return;
+
+        statusTimer += Time.deltaTime;
+
+        if (statusTimer >= statusEndTime)
+            endStatus();
     }
 
     void endStatus()
@@ -266,27 +275,11 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         }
     }
 
-    void handleStatus()
-    {
-        if (status == statusType.none)
-            return;
-
-        statusTimer += Time.deltaTime;
-
-        if (!isDamaging && status != statusType.shocked)
-        {
-            StartCoroutine(statusDamage(statusAmount, statusRate));
-        }
-
-        endStatus();
-    }
-
     IEnumerator statusDamage(int statusDamageAmount, float statusDamageRate)
     {
-        isDamaging = true;
-        takeDamageStatus(statusDamageAmount);
+        takeDamage(statusDamageAmount);
         yield return new WaitForSeconds(statusDamageRate);
-        isDamaging = false;
+        StartCoroutine(statusDamage());
     }
 
     public void getWeaponStats(weaponStats weapon)
