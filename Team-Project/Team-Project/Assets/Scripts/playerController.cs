@@ -26,12 +26,6 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
 
-    [SerializeField] float shootForce;
-    [SerializeField] int damage;
-    [SerializeField] int attackDist;
-    [SerializeField] int attackRate;
-
-    [SerializeField] int invulnDuration;
     [SerializeField] float knockbackForce;
     [SerializeField] float knockbackUpForce;
 
@@ -40,15 +34,11 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 
     int jumpCount;
     int HPOrig;
-    int weaponListPos;
-    int currentAmmo;
-    float shootTimer;
     float statusTimer;
 
     bool isCrouching;
     bool isStandingUp;
     bool isSprinting;
-    bool isInvulnerable;
 
     Vector3 moveDir;
     Vector3 playerVeloc;
@@ -77,48 +67,41 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         crouch();
         crouchVisual();
         standUpLerp();
+        endStatus();
+        handleStatus();
     }
 
     void movement()
     {
-        shootTimer += Time.deltaTime;
-        if (status != statusType.none)
-        {
-            statusTimer += Time.deltaTime;
-        }
-        if(status != statusType.none && status != statusType.shocked && !isDamaging)
-        {
-            StartCoroutine(statusDamage(statusAmount, statusRate));
-        }
-        endStatus();
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * attackDist, Color.red);
-
-        if (controller.isGrounded)
+        if (controller.isGrounded && playerVeloc.y < 0)
         {
             jumpCount = 0;
-            playerVeloc = Vector3.zero;
+            playerVeloc.y = -2f;
         }
 
-        moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * x + transform.forward * z;
 
         speed = baseSpeed;
 
         if (status == statusType.shocked)
-        {
             speed /= shockMod;
-        }
+
         if (isCrouching)
             speed /= crouchMod;
 
         if (isSprinting)
             speed *= sprintMod;
 
-        controller.Move(moveDir * speed * Time.deltaTime);
+        playerVeloc.y -= gravity * Time.deltaTime;
 
         jump();
 
-        controller.Move(playerVeloc * Time.deltaTime);
-        playerVeloc.y -= gravity * Time.deltaTime;
+        Vector3 finalMove = move * speed + playerVeloc;
+
+        controller.Move(finalMove * Time.deltaTime);
     }
 
     void jump()
@@ -215,14 +198,10 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 
     public void takeDamage(int amount)
     {
-        if (isInvulnerable)
-            return;
-
         HP -= amount;
         updatePlayerUI();
 
         StartCoroutine(flashScreen());
-        StartCoroutine(Invulnerability());
 
         if (HP <= 0)
         {
@@ -258,13 +237,6 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         gameManager.instance.playerDamageFlash.SetActive(false);
     }
 
-    IEnumerator Invulnerability()
-    {
-        isInvulnerable = true;
-        yield return new WaitForSeconds(invulnDuration);
-        isInvulnerable = false;
-    }
-
     public void updatePlayerUI()
     {
         gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
@@ -293,6 +265,22 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
             statusTimer = 0;
         }
     }
+
+    void handleStatus()
+    {
+        if (status == statusType.none)
+            return;
+
+        statusTimer += Time.deltaTime;
+
+        if (!isDamaging && status != statusType.shocked)
+        {
+            StartCoroutine(statusDamage(statusAmount, statusRate));
+        }
+
+        endStatus();
+    }
+
     IEnumerator statusDamage(int statusDamageAmount, float statusDamageRate)
     {
         isDamaging = true;

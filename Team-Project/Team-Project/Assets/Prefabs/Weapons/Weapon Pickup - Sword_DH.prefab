@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 11400000, guid: e166c98d538400e47a7fb0554db431dd, type: 2}
+  weaponList: []
 --- !u!33 &5554089980204354157
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -120,5 +121,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.713346
+  m_Radius: 0.5
   m_Center: {x: 0, y: -0.0000000027939684, z: 0.5038634}

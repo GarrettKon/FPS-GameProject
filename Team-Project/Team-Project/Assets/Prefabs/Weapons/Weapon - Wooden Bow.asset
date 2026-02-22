@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Weapon - Wooden Bow
   m_EditorClassIdentifier: 
   weapon: 0
+  weaponModel: {fileID: 1717406733745140, guid: d03c4353fda446d4f8df56d422578d64, type: 3}
   damage: 25
   attackRate: 0.8
   attackDistance: 100
+  arrow: {fileID: 4078504430598563479, guid: 4c8f3df5450deb046ab3276a9b4a2ede, type: 3}
   projectileForce: 35
-  weaponModel: {fileID: 1717406733745140, guid: d03c4353fda446d4f8df56d422578d64, type: 3}
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0

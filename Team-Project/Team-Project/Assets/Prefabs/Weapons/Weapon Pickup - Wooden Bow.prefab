@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 11400000, guid: 45657c027993f5a4b80bd7be886db104, type: 2}
+  weaponList: []
 --- !u!95 &7494346397136904263
 Animator:
   serializedVersion: 7
@@ -701,7 +702,7 @@ Animator:
   m_GameObject: {fileID: 5981597703963927467}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0be2ba322dd85494db39a44ee439af41, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ab86b01d00d347d47b3656b09831f60e, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

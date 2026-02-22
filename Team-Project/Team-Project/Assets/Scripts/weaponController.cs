@@ -1,6 +1,6 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class weaponController : MonoBehaviour
 {
@@ -60,26 +60,15 @@ public class weaponController : MonoBehaviour
 
     void changeWeapon(weaponStats current)
     {
-        if (weaponList.Count == 0) return;
-
         if (currentWeaponObject != null)
-        {
             Destroy(currentWeaponObject);
-        }
 
         currentWeaponObject = Instantiate(current.weaponModel, weaponModel);
-        currentWeaponObject.transform.localPosition = Vector3.zero;
-        currentWeaponObject.transform.localRotation = Quaternion.identity;
 
         if (current.weapon == weaponStats.WeaponType.WoodenBow)
-        {
             firePoint = currentWeaponObject.transform.Find("Fire Point");
-
-        }
         else
-        {
             firePoint = null;
-        }
 
         currentWeaponObject.SetActive(true);
     }
