@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4876952450483827842}
   - component: {fileID: 7259000957062695268}
   m_Layer: 7
-  m_Name: Bullet
+  m_Name: Bullet - Shock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::damage
   type: 0
-  statusType: 0
+  statusType: 3
   rb: {fileID: 7259000957062695268}
   damageAmount: 1
   damageRate: 0
@@ -145,8 +145,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.13333334, g: 0.3019608, b: 0.3019608, a: 1}
+      key1: {r: 0.13333334, g: 0.3019608, b: 0.3019608, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerControlller
   controller: {fileID: 5746976823923243006}
+  status: 0
   HP: 100
   speed: 6
   baseSpeed: 6
@@ -56,6 +57,7 @@ MonoBehaviour:
   jumpSpeed: 12
   jumpMax: 1
   gravity: 35
+  shockMod: 2
   crouchMod: 2
   playerCamera: {fileID: 2339204029989708540}
   crouchCameraOffset: 0.5
@@ -75,6 +77,7 @@ MonoBehaviour:
   invulnDuration: 0.75
   knockbackForce: 5
   knockbackUpForce: 2
+  statusEndTime: 4
 --- !u!143 &5746976823923243006
 CharacterController:
   m_ObjectHideFlags: 0

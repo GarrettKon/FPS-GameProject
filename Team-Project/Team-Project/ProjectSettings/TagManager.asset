@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Exit
   - Pillar Blade
+  - burnUI
+  - shockUI
+  - poisonUI
+  - burn
   layers:
   - Default
   - TransparentFX

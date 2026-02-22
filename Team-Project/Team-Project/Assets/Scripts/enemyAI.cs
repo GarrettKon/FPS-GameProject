@@ -166,4 +166,19 @@ public class enemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
     }
+
+    public void takeDamageStatus(int amount)
+    {
+        HP -= amount;
+        if (HP <= 0)
+        {
+            gameManager.instance.updateEnemyCount(-1);
+            Destroy(gameObject);
+        }
+
+        else
+        {
+            StartCoroutine(flashRed());
+        }
+    }
 }

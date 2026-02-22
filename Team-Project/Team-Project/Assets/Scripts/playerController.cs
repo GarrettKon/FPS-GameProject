@@ -2,9 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class playerController : MonoBehaviour, IDamage, IPickup
+public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 {
     [SerializeField] CharacterController controller;
+    public enum statusType { none, poisoned, burned, shocked };
+    public statusType status;
+    bool isDamaging;
 
     [SerializeField] int HP;
     [SerializeField] int speed;
@@ -13,6 +16,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMax;
     [SerializeField] int gravity;
+    [SerializeField] int shockMod;
 
     [SerializeField] int crouchMod;
     [SerializeField] Transform playerCamera;
@@ -31,11 +35,15 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] float knockbackForce;
     [SerializeField] float knockbackUpForce;
 
+    [SerializeField] float statusEndTime;
+
+
     int jumpCount;
     int HPOrig;
     int weaponListPos;
     int currentAmmo;
     float shootTimer;
+    float statusTimer;
 
     bool isCrouching;
     bool isStandingUp;
@@ -47,6 +55,8 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     Vector3 playerCenterOrig;
     Vector3 cameraStartPos;
 
+    int statusAmount;
+    float statusRate;
 
     public weaponController weaponController;
 
@@ -57,6 +67,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         standHeight = controller.height;
         playerCenterOrig = controller.center;
         baseSpeed = speed;
+        status = statusType.none;
     }
 
     void Update()
@@ -71,7 +82,15 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     void movement()
     {
         shootTimer += Time.deltaTime;
-
+        if (status != statusType.none)
+        {
+            statusTimer += Time.deltaTime;
+        }
+        if(status != statusType.none && status != statusType.shocked && !isDamaging)
+        {
+            StartCoroutine(statusDamage(statusAmount, statusRate));
+        }
+        endStatus();
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * attackDist, Color.red);
 
         if (controller.isGrounded)
@@ -84,6 +103,10 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
         speed = baseSpeed;
 
+        if (status == statusType.shocked)
+        {
+            speed /= shockMod;
+        }
         if (isCrouching)
             speed /= crouchMod;
 
@@ -206,6 +229,17 @@ public class playerController : MonoBehaviour, IDamage, IPickup
             gameManager.instance.youLose();
         }
     }
+    public void takeDamageStatus(int amount)
+    {
+        HP -= amount;
+
+        updatePlayerUI();
+        StartCoroutine(flashScreen());
+        if (HP <= 0)
+        {
+            gameManager.instance.youLose();
+        }
+    }
 
     public void knockback(Vector3 knockbackPos)
     {
@@ -235,7 +269,39 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
     }
-        public void getWeaponStats(weaponStats weapon)
+
+    public void applyStatus(statusType stat, int damageAmount, float damageRate)
+    {
+        if (status == stat || status == statusType.none)
+        {
+            statusTimer = 0;
+            status = stat;
+            gameManager.instance.statusFlash(status);
+            statusAmount = damageAmount;
+            statusRate = damageRate;
+        }
+    }
+
+    void endStatus()
+    {
+        if (statusTimer >= statusEndTime)
+        {
+            status = statusType.none;
+            gameManager.instance.burnStatusScreen.SetActive(false);
+            gameManager.instance.poisonStatusScreen.SetActive(false);
+            gameManager.instance.shockStatusScreen.SetActive(false);
+            statusTimer = 0;
+        }
+    }
+    IEnumerator statusDamage(int statusDamageAmount, float statusDamageRate)
+    {
+        isDamaging = true;
+        takeDamageStatus(statusDamageAmount);
+        yield return new WaitForSeconds(statusDamageRate);
+        isDamaging = false;
+    }
+
+    public void getWeaponStats(weaponStats weapon)
     {
         if (weaponController != null)
             weaponController.addWeapon(weapon);
