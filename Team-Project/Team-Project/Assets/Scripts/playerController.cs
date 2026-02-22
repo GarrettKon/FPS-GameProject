@@ -1,6 +1,6 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class playerController : MonoBehaviour, IDamage, IPickup
 {
@@ -22,18 +22,12 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
 
-    [SerializeField] List<weaponStats> weaponList = new List<weaponStats>();
-    [SerializeField] List<GameObject> weaponInstances = new List<GameObject>();
-    [SerializeField] GameObject weaponModel;
-    [SerializeField] GameObject arrow;
-    [SerializeField] Transform firePoint;
     [SerializeField] float shootForce;
-
     [SerializeField] int damage;
-    [SerializeField] float attackDist;
-    [SerializeField] float attackRate;
+    [SerializeField] int attackDist;
+    [SerializeField] int attackRate;
 
-    [SerializeField] float invulnDuration;
+    [SerializeField] int invulnDuration;
     [SerializeField] float knockbackForce;
     [SerializeField] float knockbackUpForce;
 
@@ -54,8 +48,8 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     Vector3 cameraStartPos;
 
 
+    public weaponController weaponController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
@@ -65,7 +59,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         baseSpeed = speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
         movement();
@@ -103,13 +96,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
         controller.Move(playerVeloc * Time.deltaTime);
         playerVeloc.y -= gravity * Time.deltaTime;
-
-        if (weaponList.Count > 0 && Input.GetButtonDown("Fire1") && shootTimer >= weaponList[weaponListPos].attackRate)
-        {
-            attack();
-        }
-
-        selectWeapon();
     }
 
     void jump()
@@ -163,7 +149,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         }
     }
 
-
     void crouchVisual()
     {
         Vector3 targetPos = cameraStartPos;
@@ -202,55 +187,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
             controller.height = standHeight;
             controller.center = playerCenterOrig;
             isStandingUp = false;
-        }
-    }
-
-    void attack()
-    {
-        shootTimer = 0;
-
-        weaponStats current = weaponList[weaponListPos];
-
-        if (current.weapon == weaponStats.WeaponType.Bow)
-        {
-            FireArrow(current);
-        }
-        else
-        {
-            MeleeAttack(current);
-        }
-    }
-
-    void FireArrow(weaponStats current)
-    {
-        if (firePoint == null || arrow == null)
-        {
-            Debug.LogWarning("Missing firePoint or arrow prefab!");
-            return;
-        }
-
-        GameObject spawnedArrow = Instantiate(
-            arrow,
-            firePoint.position,
-            firePoint.rotation
-        );
-
-        Rigidbody rb = spawnedArrow.GetComponent<Rigidbody>();
-
-        if (rb != null)
-            rb.AddForce(firePoint.forward * current.projectileForce, ForceMode.Impulse);
-    }
-
-    void MeleeAttack(weaponStats current)
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, current.attackDistance))
-        {
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-
-            if (dmg != null)
-                dmg.takeDamage(current.damage);
         }
     }
 
@@ -299,61 +235,9 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
     }
-
-    public void getWeaponStats(weaponStats weapon)
+        public void getWeaponStats(weaponStats weapon)
     {
-        weaponList.Add(weapon);
-
-        // Spawn weapon once
-        GameObject newWeapon = Instantiate(
-            weapon.weaponModel,
-            weaponModel.transform
-        );
-
-        newWeapon.SetActive(false);
-
-        weaponInstances.Add(newWeapon);
-
-        weaponListPos = weaponList.Count - 1;
-
-        changeWeapon();
-    }
-
-    void changeWeapon()
-    {
-        weaponStats current = weaponList[weaponListPos];
-
-        damage = current.damage;
-        attackDist = current.attackDistance;
-        attackRate = current.attackRate;
-
-        firePoint = null;
-
-        foreach (Transform child in weaponModel.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        GameObject spawnedWeapon =
-            Instantiate(current.weaponModel, weaponModel.transform);
-
-        if (current.weapon == weaponStats.WeaponType.Bow)
-        {
-            firePoint = spawnedWeapon.transform.Find("Fire Point");
-        }
-    }
-
-    void selectWeapon()
-    {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)
-        {
-            weaponListPos++;
-            changeWeapon();
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && weaponListPos > 0)
-        {
-            weaponListPos--;
-            changeWeapon();
-        }
+        if (weaponController != null)
+            weaponController.addWeapon(weapon);
     }
 }

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001e2a1030a5bdc4f9e14c29f96a4d28, type: 3}
   m_Name: Weapon - Sword_OH
   m_EditorClassIdentifier: 
-  weaponType: 1
+  weapon: 1
   damage: 20
   attackRate: 0.4
   attackDistance: 3
   projectileForce: 0
-  weaponModel: {fileID: 4664427010326365921, guid: 942c87105db53684ba24dc4ed977ff43, type: 3}
+  weaponModel: {fileID: 1037715513984232, guid: 259746fbc59909b4eb14377c46a80363, type: 3}
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0

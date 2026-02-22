@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001e2a1030a5bdc4f9e14c29f96a4d28, type: 3}
   m_Name: Weapon - Axe_DS
   m_EditorClassIdentifier: 
-  weaponType: 4
+  weapon: 4
   damage: 50
   attackRate: 1.2
   attackDistance: 3.5
   projectileForce: 0
-  weaponModel: {fileID: 9100156417849566828, guid: a2190eb40c81e0940929b03dc481d452, type: 3}
+  weaponModel: {fileID: 1948186286613674, guid: f063809a91c6b0248956e054e09b9b56, type: 3}
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0

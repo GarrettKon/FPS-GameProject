@@ -5,7 +5,7 @@ public class weaponStats : ScriptableObject
 {
     public enum WeaponType
     {
-        Bow,
+        WoodenBow,
         OneHandSword,
         TwoHandSword,
         OneHandAxe,
@@ -13,6 +13,7 @@ public class weaponStats : ScriptableObject
     }
 
     public WeaponType weapon;
+    public GameObject weaponModel;
 
     [Header("Damage")]
     public int damage;
@@ -20,10 +21,10 @@ public class weaponStats : ScriptableObject
     public float attackDistance;
 
     [Header("Bow Only")]
+    public GameObject arrow;
     public float projectileForce;
 
     [Header("Visual")]
-    public GameObject weaponModel;
     public ParticleSystem hitEffect;
 
     [Header("Audio")]
