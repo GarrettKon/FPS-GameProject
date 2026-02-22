@@ -1,6 +1,6 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
+
 
 public class damage : MonoBehaviour
 {
@@ -30,7 +30,6 @@ public class damage : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger)
@@ -59,37 +58,20 @@ public class damage : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.isTrigger)
-        {
+        if (other.isTrigger)
             return;
-        }
+
         IDamage dmg = other.GetComponent<IDamage>();
-        if(dmg != null && type == damageType.DOT && !isDamaging)
+
+        if (dmg != null && type == damageType.DOT)
         {
             StartCoroutine(damageOther(dmg));
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.isTrigger)
-        {
-            return;
-        }
-        IDamage dmg = other.GetComponent<IDamage>();
-        IStatus status = other.GetComponent<IStatus>();
-        if (status != null)
-        {
-            status.applyStatus(statusType, statusDamageAmount, statusDamageRate);
-        }
-    }
     IEnumerator damageOther(IDamage d)
     {
-        isDamaging = true;
         d.takeDamage(damageAmount);
         yield return new WaitForSeconds(damageRate);
-        isDamaging = false;
     }
-
-
 }
