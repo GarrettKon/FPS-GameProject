@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 {
     [SerializeField] CharacterController controller;
-
+    public enum statusType { none, poisoned, burned, shocked };
+    public statusType status;
+    
     [SerializeField] int HP;
     [SerializeField] int speed;
     [SerializeField] int baseSpeed;
@@ -12,6 +15,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMax;
     [SerializeField] int gravity;
+    [SerializeField] int shockMod;
 
     [SerializeField] int crouchMod;
     [SerializeField] Transform playerCamera;
@@ -21,14 +25,15 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] float crouchHeight;
     [SerializeField] float standHeight;
 
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
+    [SerializeField] float knockbackForce;
+    [SerializeField] float knockbackUpForce;
+
+    [SerializeField] float statusEndTime;
+
 
     int jumpCount;
     int HPOrig;
-
-    float shootTimer;
+    float statusTimer;
 
     bool isCrouching;
     bool isStandingUp;
@@ -39,9 +44,11 @@ public class playerController : MonoBehaviour, IDamage
     Vector3 playerCenterOrig;
     Vector3 cameraStartPos;
 
+    int statusAmount;
+    float statusRate;
 
+    public weaponController weaponController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
@@ -49,9 +56,9 @@ public class playerController : MonoBehaviour, IDamage
         standHeight = controller.height;
         playerCenterOrig = controller.center;
         baseSpeed = speed;
+        status = statusType.none;
     }
 
-    // Update is called once per frame
     void Update()
     {
         movement();
@@ -59,23 +66,26 @@ public class playerController : MonoBehaviour, IDamage
         crouch();
         crouchVisual();
         standUpLerp();
+        handleStatus();
     }
 
     void movement()
     {
-        shootTimer += Time.deltaTime;
-
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
-
-        if (controller.isGrounded)
+        if (controller.isGrounded && playerVeloc.y < 0)
         {
             jumpCount = 0;
-            playerVeloc = Vector3.zero;
+            playerVeloc.y = -2f;
         }
 
-        moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * x + transform.forward * z;
 
         speed = baseSpeed;
+
+        if (status == statusType.shocked)
+            speed /= shockMod;
 
         if (isCrouching)
             speed /= crouchMod;
@@ -83,15 +93,13 @@ public class playerController : MonoBehaviour, IDamage
         if (isSprinting)
             speed *= sprintMod;
 
-        controller.Move(moveDir * speed * Time.deltaTime);
+        playerVeloc.y -= gravity * Time.deltaTime;
 
         jump();
 
-        controller.Move(playerVeloc * Time.deltaTime);
-        playerVeloc.y -= gravity * Time.deltaTime;
+        Vector3 finalMove = move * speed + playerVeloc;
 
-        if (Input.GetButtonDown("Fire1") && shootTimer >= shootRate)
-            shoot();
+        controller.Move(finalMove * Time.deltaTime);
     }
 
     void jump()
@@ -130,11 +138,7 @@ public class playerController : MonoBehaviour, IDamage
             isStandingUp = false;
 
             controller.height = crouchHeight;
-            controller.center = new Vector3(
-                controller.center.x,
-                crouchHeight / 2f,
-                controller.center.z
-            );
+            controller.center = new Vector3(controller.center.x, crouchHeight / 2f, controller.center.z);
         }
         else
         {
@@ -148,7 +152,6 @@ public class playerController : MonoBehaviour, IDamage
             isStandingUp = true;
         }
     }
-
 
     void crouchVisual()
     {
@@ -191,34 +194,27 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
-    void shoot()
-    {
-        shootTimer = 0;
-
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
-        {
-            Debug.Log(hit.collider.name);
-
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-            if (dmg != null)
-            {
-                dmg.takeDamage(shootDamage);
-            }
-        }
-    }
-
     public void takeDamage(int amount)
     {
         HP -= amount;
-        //TODO waiting on damage HP & flash material Matt
         updatePlayerUI();
+
         StartCoroutine(flashScreen());
 
         if (HP <= 0)
         {
             gameManager.instance.youLose();
         }
+    }
+
+    public void knockback(Vector3 knockbackPos)
+    {
+        Vector3 knockDir = (transform.position - knockbackPos).normalized;
+
+        knockDir.y = 0;
+
+        playerVeloc += knockDir * knockbackForce;
+        playerVeloc.y = knockbackUpForce;
     }
 
     IEnumerator flashScreen()
@@ -231,5 +227,64 @@ public class playerController : MonoBehaviour, IDamage
     public void updatePlayerUI()
     {
         gameManager.instance.healthBar.fillAmount = (float)HP / HPOrig;
+    }
+
+    IEnumerator statusDamage()
+    {
+        while (status != statusType.none && status != statusType.shocked)
+        {
+            takeDamage(statusAmount);
+            yield return new WaitForSeconds(statusRate);
+        }
+    }
+
+    public void applyStatus(statusType stat, int damageAmount, float damageRate)
+    {
+        status = stat;
+
+        statusTimer = 0;
+        statusAmount = damageAmount;
+        statusRate = damageRate;
+
+        gameManager.instance.statusFlash(status);
+
+        if (status != statusType.shocked)
+            StartCoroutine(statusDamage());
+    }
+
+    void handleStatus()
+    {
+        if (status == statusType.none)
+            return;
+
+        statusTimer += Time.deltaTime;
+
+        if (statusTimer >= statusEndTime)
+            endStatus();
+    }
+
+    void endStatus()
+    {
+        if (statusTimer >= statusEndTime)
+        {
+            status = statusType.none;
+            gameManager.instance.burnStatusScreen.SetActive(false);
+            gameManager.instance.poisonStatusScreen.SetActive(false);
+            gameManager.instance.shockStatusScreen.SetActive(false);
+            statusTimer = 0;
+        }
+    }
+
+    IEnumerator statusDamage(int statusDamageAmount, float statusDamageRate)
+    {
+        takeDamage(statusDamageAmount);
+        yield return new WaitForSeconds(statusDamageRate);
+        StartCoroutine(statusDamage());
+    }
+
+    public void getWeaponStats(weaponStats weapon)
+    {
+        if (weaponController != null)
+            weaponController.addWeapon(weapon);
     }
 }
