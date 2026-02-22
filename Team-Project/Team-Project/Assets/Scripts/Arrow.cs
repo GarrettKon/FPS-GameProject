@@ -2,10 +2,23 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [SerializeField] int damage;
     [SerializeField] float lifeTime;
 
+    int damage;
+    ParticleSystem hitEffect;
     Rigidbody rb;
+
+
+
+    public void SetDamage(int amount)
+    {
+        damage = amount;
+    }
+
+    public void SetHitEffect(ParticleSystem effect)
+    {
+        hitEffect = effect;
+    }
 
     void Start()
     {
@@ -22,8 +35,12 @@ public class Arrow : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         IDamage dmg = other.collider.GetComponent<IDamage>();
+
         if (dmg != null)
             dmg.takeDamage(damage);
+
+        if (hitEffect != null)
+            Instantiate(hitEffect, transform.position, Quaternion.identity);
 
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;

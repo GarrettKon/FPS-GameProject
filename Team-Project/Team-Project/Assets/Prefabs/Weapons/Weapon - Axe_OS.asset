@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Weapon - Axe_OS
   m_EditorClassIdentifier: 
   weapon: 3
+  weaponModel: {fileID: 6660218736870797004, guid: 2d4c28e117df33b44b7e86dafb44f403, type: 3}
   damage: 30
   attackRate: 0.6
   attackDistance: 3
+  arrow: {fileID: 0}
   projectileForce: 0
-  weaponModel: {fileID: 1776472905282870, guid: 1fa34df54f1414448b502a85dfa4a95c, type: 3}
   hitEffect: {fileID: 0}
-  shootSound: []
-  shootSoundVol: 0
+  shootSound:
+  - {fileID: 8300000, guid: 9ec42d424bf897641add3b7e4acb934c, type: 3}
+  shootSoundVol: 0.5

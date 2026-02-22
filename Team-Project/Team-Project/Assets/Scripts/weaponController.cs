@@ -23,6 +23,8 @@ public class weaponController : MonoBehaviour
 
         weaponStats current = weaponList[weaponListPos];
 
+        PlayWeaponSound(current);
+
         if (current.weapon == weaponStats.WeaponType.WoodenBow)
             fireArrow(current);
         else
@@ -34,13 +36,21 @@ public class weaponController : MonoBehaviour
         if (firePoint == null || current.arrow == null)
             return;
 
-        GameObject arrow =
+        GameObject arrowObj =
             Instantiate(current.arrow, firePoint.position, firePoint.rotation);
 
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
+        Rigidbody rb = arrowObj.GetComponent<Rigidbody>();
 
         if (rb != null)
-            rb.AddForce(firePoint.forward * current.projectileForce, ForceMode.Impulse);
+            rb.linearVelocity = firePoint.forward * current.projectileForce;
+
+        Arrow arrowScript = arrowObj.GetComponent<Arrow>();
+
+        if (arrowScript != null)
+        {
+            arrowScript.SetDamage(current.damage);
+            arrowScript.SetHitEffect(current.hitEffect);
+        }
     }
 
     void meleeAttack(weaponStats current)
@@ -49,12 +59,15 @@ public class weaponController : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, current.attackDistance))
         {
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            IDamage dmg = hit.collider.GetComponentInParent<IDamage>();
 
             if (dmg != null)
+            {
                 dmg.takeDamage(current.damage);
 
-            PlayWeaponEffect(current);
+                if (current.hitEffect != null)
+                    Instantiate(current.hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            }
         }
     }
 
@@ -96,14 +109,18 @@ public class weaponController : MonoBehaviour
     }
 
     void PlayWeaponSound(weaponStats current)
+{
+    if (current.shootSound != null && current.shootSound.Length > 0)
     {
-        if (current.shootSound.Length > 0)
-        {
-            AudioSource.PlayClipAtPoint(current.shootSound[Random.Range(0, current.shootSound.Length)], transform.position, current.shootSoundVol);
-        }
+        AudioSource.PlayClipAtPoint(
+            current.shootSound[Random.Range(0, current.shootSound.Length)],
+            weaponModel.position,
+            current.shootSoundVol
+        );
     }
+}
 
-    void PlayWeaponEffect(weaponStats current)
+    public void PlayWeaponEffect(weaponStats current)
     {
         if (current.hitEffect != null)
         {

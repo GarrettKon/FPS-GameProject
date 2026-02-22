@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Weapon - Sword_DH
   m_EditorClassIdentifier: 
   weapon: 2
+  weaponModel: {fileID: 174874126909126260, guid: a43a05f54d2b7874e8facdcbfb74f768, type: 3}
   damage: 40
   attackRate: 0.9
   attackDistance: 3.5
+  arrow: {fileID: 0}
   projectileForce: 0
-  weaponModel: {fileID: 1845237839428460, guid: ab8ac2017bc4c9e40b484324e5ee20e7, type: 3}
   hitEffect: {fileID: 0}
-  shootSound: []
-  shootSoundVol: 0
+  shootSound:
+  - {fileID: 8300000, guid: 9ec42d424bf897641add3b7e4acb934c, type: 3}
+  shootSoundVol: 0.5
