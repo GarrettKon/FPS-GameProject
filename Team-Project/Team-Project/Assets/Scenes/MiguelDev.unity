@@ -398,14 +398,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 930533907487530000, guid: 471a4c3cc1981164983ceb4efbf46af2, type: 3}
-      propertyPath: shockMod
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 930533907487530000, guid: 471a4c3cc1981164983ceb4efbf46af2, type: 3}
-      propertyPath: statusEndTime
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 6395412746940124784, guid: 471a4c3cc1981164983ceb4efbf46af2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
