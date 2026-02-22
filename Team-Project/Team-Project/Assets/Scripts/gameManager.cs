@@ -7,10 +7,7 @@ using System.Collections;
 
 public class gameManager : MonoBehaviour
 {
-
     public static gameManager instance;
-
-
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
@@ -19,7 +16,9 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text keyFoundText;
     public Image healthBar;
     public GameObject playerDamageFlash;
-
+    public GameObject burnStatusScreen;
+    public GameObject poisonStatusScreen;
+    public GameObject shockStatusScreen;
     public GameObject player;
     public playerController playerScript;
 
@@ -107,6 +106,22 @@ public class gameManager : MonoBehaviour
         menuActive = menuLose;
         menuActive.SetActive(true);
 
+    }
+
+    public void statusFlash(playerController.statusType type)
+    {
+        if (type == playerController.statusType.burned)
+        {
+            burnStatusScreen.SetActive(true);
+        }
+        if (type == playerController.statusType.poisoned)
+        {
+            poisonStatusScreen.SetActive(true);
+        }
+        if (type == playerController.statusType.shocked)
+        {
+            shockStatusScreen.SetActive(true);
+        }
     }
 
     public void updateEnemyCount(int amount)
