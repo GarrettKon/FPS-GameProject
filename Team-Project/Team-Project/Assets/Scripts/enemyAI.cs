@@ -47,7 +47,7 @@ public class enemyAI : MonoBehaviour, IDamage
         shootTimer += Time.deltaTime;
 
         if (agent.remainingDistance < 0.01f)
-        { 
+        {
             roamTimer += Time.deltaTime;
         }
 
@@ -114,7 +114,7 @@ public class enemyAI : MonoBehaviour, IDamage
         return false;
     }
 
-        void faceTarget()
+    void faceTarget()
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
@@ -165,20 +165,5 @@ public class enemyAI : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
-    }
-
-    public void takeDamageStatus(int amount)
-    {
-        HP -= amount;
-        if (HP <= 0)
-        {
-            gameManager.instance.updateEnemyCount(-1);
-            Destroy(gameObject);
-        }
-
-        else
-        {
-            StartCoroutine(flashRed());
-        }
     }
 }
