@@ -19,8 +19,6 @@ public class weaponController : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Attack triggered");
-
         if (weaponList.Count == 0) return;
 
         weaponStats current = weaponList[weaponListPos];
@@ -55,12 +53,12 @@ public class weaponController : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, current.attackDistance))
         {
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            IDamage dmg = hit.collider.GetComponentInParent<IDamage>();
 
             if (dmg != null)
+            {
                 dmg.takeDamage(current.damage);
-
-            PlayWeaponEffect(current);
+            }
         }
     }
 

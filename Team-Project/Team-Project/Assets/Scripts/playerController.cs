@@ -67,6 +67,11 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         crouchVisual();
         standUpLerp();
         handleStatus();
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            weaponController.Attack();
+        }
     }
 
     void movement()
