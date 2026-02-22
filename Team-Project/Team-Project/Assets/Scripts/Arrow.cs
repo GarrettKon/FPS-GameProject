@@ -2,10 +2,18 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [SerializeField] int damage;
     [SerializeField] float lifeTime;
 
+    int damage;
+
     Rigidbody rb;
+
+
+
+    public void SetDamage(int amount)
+    {
+        damage = amount;
+    }
 
     void Start()
     {
@@ -22,11 +30,13 @@ public class Arrow : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         IDamage dmg = other.collider.GetComponent<IDamage>();
+
         if (dmg != null)
             dmg.takeDamage(damage);
 
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
+
         Destroy(gameObject, 2f);
     }
 }

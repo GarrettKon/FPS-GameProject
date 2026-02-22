@@ -19,6 +19,8 @@ public class weaponController : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log("Attack triggered");
+
         if (weaponList.Count == 0) return;
 
         weaponStats current = weaponList[weaponListPos];
@@ -34,13 +36,17 @@ public class weaponController : MonoBehaviour
         if (firePoint == null || current.arrow == null)
             return;
 
-        GameObject arrow =
+        GameObject arrowObj =
             Instantiate(current.arrow, firePoint.position, firePoint.rotation);
 
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
+        Rigidbody rb = arrowObj.GetComponent<Rigidbody>();
 
         if (rb != null)
-            rb.AddForce(firePoint.forward * current.projectileForce, ForceMode.Impulse);
+            rb.linearVelocity = firePoint.forward * current.projectileForce;
+
+        Arrow arrowScript = arrowObj.GetComponent<Arrow>();
+        if (arrowScript != null)
+            arrowScript.SetDamage(current.damage);
     }
 
     void meleeAttack(weaponStats current)
