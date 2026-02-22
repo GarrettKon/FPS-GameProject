@@ -10,7 +10,7 @@ TagManager:
   - shockUI
   - poisonUI
   - burn
-  - Spawnpoint
+  - Player Spawn Pos
   layers:
   - Default
   - TransparentFX

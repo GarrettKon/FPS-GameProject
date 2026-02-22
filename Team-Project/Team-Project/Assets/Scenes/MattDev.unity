@@ -643,6 +643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Spawn Pos
       objectReference: {fileID: 0}
+    - target: {fileID: 5315198605062753575, guid: 2f4d7aa560b63884d861d84ff76c62b2, type: 3}
+      propertyPath: m_TagString
+      value: Player Spawn Pos
+      objectReference: {fileID: 0}
     - target: {fileID: 6358388654158497413, guid: 2f4d7aa560b63884d861d84ff76c62b2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1838.22

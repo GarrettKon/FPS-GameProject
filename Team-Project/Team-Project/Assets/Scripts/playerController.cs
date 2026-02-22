@@ -52,12 +52,12 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     void Start()
     {
         HPOrig = HP;
-        spawnPlayer();
         cameraStartPos = playerCamera.localPosition;
         standHeight = controller.height;
         playerCenterOrig = controller.center;
         baseSpeed = speed;
         status = statusType.none;
+        spawnPlayer();
     }
 
     void Update()
@@ -80,7 +80,7 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
         Physics.SyncTransforms();
         HP = HPOrig;
-        updatePlayerUI();
+        
     }
 
     void movement()
