@@ -23,6 +23,8 @@ public class weaponController : MonoBehaviour
 
         weaponStats current = weaponList[weaponListPos];
 
+        PlayWeaponSound(current);
+
         if (current.weapon == weaponStats.WeaponType.WoodenBow)
             fireArrow(current);
         else
@@ -43,8 +45,12 @@ public class weaponController : MonoBehaviour
             rb.linearVelocity = firePoint.forward * current.projectileForce;
 
         Arrow arrowScript = arrowObj.GetComponent<Arrow>();
+
         if (arrowScript != null)
+        {
             arrowScript.SetDamage(current.damage);
+            arrowScript.SetHitEffect(current.hitEffect);
+        }
     }
 
     void meleeAttack(weaponStats current)
@@ -58,6 +64,9 @@ public class weaponController : MonoBehaviour
             if (dmg != null)
             {
                 dmg.takeDamage(current.damage);
+
+                if (current.hitEffect != null)
+                    Instantiate(current.hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
             }
         }
     }
@@ -100,14 +109,18 @@ public class weaponController : MonoBehaviour
     }
 
     void PlayWeaponSound(weaponStats current)
+{
+    if (current.shootSound != null && current.shootSound.Length > 0)
     {
-        if (current.shootSound.Length > 0)
-        {
-            AudioSource.PlayClipAtPoint(current.shootSound[Random.Range(0, current.shootSound.Length)], transform.position, current.shootSoundVol);
-        }
+        AudioSource.PlayClipAtPoint(
+            current.shootSound[Random.Range(0, current.shootSound.Length)],
+            weaponModel.position,
+            current.shootSoundVol
+        );
     }
+}
 
-    void PlayWeaponEffect(weaponStats current)
+    public void PlayWeaponEffect(weaponStats current)
     {
         if (current.hitEffect != null)
         {

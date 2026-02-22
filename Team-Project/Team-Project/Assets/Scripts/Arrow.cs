@@ -5,7 +5,7 @@ public class Arrow : MonoBehaviour
     [SerializeField] float lifeTime;
 
     int damage;
-
+    ParticleSystem hitEffect;
     Rigidbody rb;
 
 
@@ -13,6 +13,11 @@ public class Arrow : MonoBehaviour
     public void SetDamage(int amount)
     {
         damage = amount;
+    }
+
+    public void SetHitEffect(ParticleSystem effect)
+    {
+        hitEffect = effect;
     }
 
     void Start()
@@ -34,9 +39,11 @@ public class Arrow : MonoBehaviour
         if (dmg != null)
             dmg.takeDamage(damage);
 
+        if (hitEffect != null)
+            Instantiate(hitEffect, transform.position, Quaternion.identity);
+
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
-
         Destroy(gameObject, 2f);
     }
 }
