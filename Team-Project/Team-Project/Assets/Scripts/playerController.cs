@@ -77,10 +77,16 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 
     public void spawnPlayer()
     {
+        if (gameManager.instance.playerSpawnPos == null)
+        {
+            Debug.LogError("Player Spawn Pos is not assigned in GameManager!");
+            return;
+        }
+
         controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
         Physics.SyncTransforms();
         HP = HPOrig;
-        
+        updatePlayerUI();
     }
 
     void movement()
@@ -108,6 +114,12 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
             speed *= sprintMod;
 
         playerVeloc.y -= gravity * Time.deltaTime;
+
+        Vector3 horizontalVel = new Vector3(playerVeloc.x, 0, playerVeloc.z);
+        horizontalVel = Vector3.Lerp(horizontalVel, Vector3.zero, 6f * Time.deltaTime);
+
+        playerVeloc.x = horizontalVel.x;
+        playerVeloc.z = horizontalVel.z;
 
         jump();
 

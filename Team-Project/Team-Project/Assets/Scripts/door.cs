@@ -39,6 +39,4 @@ public class door : MonoBehaviour
             button.SetActive(false);
         }
     }
-
-
 }

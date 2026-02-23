@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class weaponController : MonoBehaviour
 {
+
+    [SerializeField] float swingAngle;
+    [SerializeField] float swingSpeed;
+
     public Transform weaponModel;
 
     List<weaponStats> weaponList = new List<weaponStats>();
@@ -11,6 +15,8 @@ public class weaponController : MonoBehaviour
 
     GameObject currentWeaponObject;
     Transform firePoint;
+
+    bool isSwinging;
 
     void Update()
     {
@@ -28,7 +34,8 @@ public class weaponController : MonoBehaviour
         if (current.weapon == weaponStats.WeaponType.WoodenBow)
             fireArrow(current);
         else
-            meleeAttack(current);
+            if (!isSwinging)
+                StartCoroutine(SwingWeapon(current));
     }
 
     void fireArrow(weaponStats current)
@@ -126,5 +133,39 @@ public class weaponController : MonoBehaviour
         {
             Instantiate(current.hitEffect, transform.position, Quaternion.identity);
         }
+    }
+
+    IEnumerator SwingWeapon(weaponStats current)
+    {
+        isSwinging = true;
+
+        Quaternion startRot = currentWeaponObject.transform.localRotation;
+        Quaternion endRot = startRot * Quaternion.Euler(0, -swingAngle, 0);
+
+        float swing = 0;
+
+        while (swing < 1)
+        {
+            swing += Time.deltaTime * swingSpeed;
+            currentWeaponObject.transform.localRotation =
+                Quaternion.Lerp(startRot, endRot, swing);
+            yield return null;
+        }
+
+        swing = 0;
+
+        while (swing < 1)
+        {
+            swing += Time.deltaTime * swingSpeed;
+            currentWeaponObject.transform.localRotation =
+                Quaternion.Lerp(endRot, startRot, swing);
+            yield return null;
+        }
+
+        currentWeaponObject.transform.localRotation = startRot;
+
+        meleeAttack(current);
+
+        isSwinging = false;
     }
 }

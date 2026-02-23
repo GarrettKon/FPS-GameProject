@@ -14,6 +14,7 @@ public class foundKey : MonoBehaviour
         {
             gameManager.instance.keyFound = true;
             gameManager.instance.updateKeyFound();
+            gameManager.instance.flashDoorOpen();
             door.SetActive(false);
             gameObject.SetActive(false);
         }
