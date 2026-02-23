@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 {
@@ -48,6 +49,7 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     float statusRate;
 
     public weaponController weaponController;
+    Coroutine statusRoutine;
 
     void Start()
     {
@@ -69,7 +71,7 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         standUpLerp();
         handleStatus();
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
             weaponController.Attack();
         }
@@ -274,8 +276,11 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 
         gameManager.instance.statusFlash(status);
 
+        if (statusRoutine != null)
+            StopCoroutine(statusRoutine);
+
         if (status != statusType.shocked)
-            StartCoroutine(statusDamage());
+            statusRoutine = StartCoroutine(statusDamage());
     }
 
     void handleStatus()
@@ -299,13 +304,6 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
             gameManager.instance.shockStatusScreen.SetActive(false);
             statusTimer = 0;
         }
-    }
-
-    IEnumerator statusDamage(int statusDamageAmount, float statusDamageRate)
-    {
-        takeDamage(statusDamageAmount);
-        yield return new WaitForSeconds(statusDamageRate);
-        StartCoroutine(statusDamage());
     }
 
     public void getWeaponStats(weaponStats weapon)
