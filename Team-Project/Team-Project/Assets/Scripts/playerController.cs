@@ -268,9 +268,15 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 
     public void applyStatus(statusType stat, int damageAmount, float damageRate)
     {
-        status = stat;
+        if (status == stat)
+        {
+            statusTimer = 0;
+            return;
+        }
 
+        status = stat;
         statusTimer = 0;
+
         statusAmount = damageAmount;
         statusRate = damageRate;
 

@@ -21,5 +21,5 @@ MonoBehaviour:
   projectileForce: 0
   hitEffect: {fileID: 0}
   shootSound:
-  - {fileID: 8300000, guid: 9ec42d424bf897641add3b7e4acb934c, type: 3}
+  - {fileID: 8300000, guid: 872e1b882afaf0341b09325fb0ed285c, type: 3}
   shootSoundVol: 0.5
