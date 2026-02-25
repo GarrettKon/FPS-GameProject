@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class damage : MonoBehaviour
+public class damage : MonoBehaviour 
 {
     enum damageType { bullet, stationary, DOT}
     [SerializeField] damageType type;
@@ -74,4 +74,7 @@ public class damage : MonoBehaviour
         d.takeDamage(damageAmount);
         yield return new WaitForSeconds(damageRate);
     }
+
+   
+    
 }

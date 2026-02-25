@@ -17,6 +17,7 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     [SerializeField] int jumpMax;
     [SerializeField] int gravity;
     [SerializeField] int shockMod;
+  
 
     [SerializeField] int crouchMod;
     [SerializeField] Transform playerCamera;
@@ -316,5 +317,20 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     {
         if (weaponController != null)
             weaponController.addWeapon(weapon);
+    }
+
+    public void getSpeedUpgrade(speedUpgrade speedItem)
+    {
+        sprintMod *= speedItem.speedMult;
+    }
+
+    public void getJumpUpgrade(jumpUpgrade jumpItem)
+    {
+        jumpMax = jumpItem.jumpMult;
+    }
+
+    public void getDamageUpgrade(damageUpgrade dmgItem)
+    {
+        
     }
 }
