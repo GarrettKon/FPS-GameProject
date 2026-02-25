@@ -17,6 +17,7 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
     [SerializeField] int jumpMax;
     [SerializeField] int gravity;
     [SerializeField] int shockMod;
+    [SerializeField] int damage;
   
 
     [SerializeField] int crouchMod;
@@ -331,6 +332,6 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
 
     public void getDamageUpgrade(damageUpgrade dmgItem)
     {
-        
+        damage *= dmgItem.damageMult;
     }
 }

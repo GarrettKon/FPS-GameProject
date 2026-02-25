@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DamageMult
   m_EditorClassIdentifier: Assembly-CSharp::damageUpgrade
   dmgItem: {fileID: 159138, guid: a4b8eb4ddb65270498112625f085d3d2, type: 3}
-  damageMult: 3
+  damageMult: 2
