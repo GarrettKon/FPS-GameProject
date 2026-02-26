@@ -1,27 +1,28 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 
 
-
 public class gameManager : MonoBehaviour
 {
-
     public static gameManager instance;
-
-
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] TMP_Text enemyCountText;
     [SerializeField] TMP_Text keyFoundText;
+    [SerializeField] TMP_Text doorOpenText;
     public Image healthBar;
     public GameObject playerDamageFlash;
-
+    public GameObject burnStatusScreen;
+    public GameObject poisonStatusScreen;
+    public GameObject shockStatusScreen;
     public GameObject player;
     public playerController playerScript;
+    public GameObject playerSpawnPos;
+    public GameObject checkpointPopup;
 
 
 
@@ -34,18 +35,22 @@ public class gameManager : MonoBehaviour
     public bool keyFound;
     GameObject goalObject;
 
+    Coroutine keyFlashRoutine;
+    Coroutine doorFlashRoutine;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        instance = this;
+
         gameGoalReached = false;
         keyFound = false;
         updateKeyFound();
 
-        instance = this;
         timeScaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
+        playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
     // Update is called once per frame
@@ -109,6 +114,22 @@ public class gameManager : MonoBehaviour
 
     }
 
+    public void statusFlash(playerController.statusType type)
+    {
+        if (type == playerController.statusType.burned)
+        {
+            burnStatusScreen.SetActive(true);
+        }
+        if (type == playerController.statusType.poisoned)
+        {
+            poisonStatusScreen.SetActive(true);
+        }
+        if (type == playerController.statusType.shocked)
+        {
+            shockStatusScreen.SetActive(true);
+        }
+    }
+
     public void updateEnemyCount(int amount)
     {
         enemyCountNumber += amount;
@@ -126,31 +147,56 @@ public class gameManager : MonoBehaviour
         keyFlashRoutine = StartCoroutine(FlashKeyFound());
     }
 
-    Coroutine keyFlashRoutine;
-
     IEnumerator FlashKeyFound()
     {
         keyFoundText.gameObject.SetActive(true);
+
+        Color c = keyFoundText.color;
+        c.a = 1f;
+        keyFoundText.color = c;
+
+        yield return new WaitForSeconds(1.5f);
+
+        keyFoundText.gameObject.SetActive(false);
+
+        keyFlashRoutine = null;
+    }
+
+    public void flashDoorOpen()
+    {
+        if (!keyFound)
+            return;
+
+        if (doorFlashRoutine != null)
+            StopCoroutine(doorFlashRoutine);
+
+        doorFlashRoutine = StartCoroutine(FlashDoorOpen());
+    }
+
+    IEnumerator FlashDoorOpen()
+    {
+        doorOpenText.gameObject.SetActive(true);
 
         float timer = 0f;
         float duration = 1.5f;
         float speed = 6f;
 
-        Color c = keyFoundText.color;
+        Color c = doorOpenText.color;
 
         while (timer < duration)
         {
             c.a = Mathf.Abs(Mathf.Sin(timer * speed));
-            keyFoundText.color = c;
+            doorOpenText.color = c;
 
             timer += Time.deltaTime;
             yield return null;
         }
 
-        keyFoundText.gameObject.SetActive(false);
-        c.a = 1f;
-        keyFoundText.color = c;
+        doorOpenText.gameObject.SetActive(false);
 
-        keyFlashRoutine = null;
+        c.a = 1f;
+        doorOpenText.color = c;
+
+        doorFlashRoutine = null;
     }
 }

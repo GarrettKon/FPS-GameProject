@@ -47,7 +47,7 @@ public class enemyAI : MonoBehaviour, IDamage
         shootTimer += Time.deltaTime;
 
         if (agent.remainingDistance < 0.01f)
-        { 
+        {
             roamTimer += Time.deltaTime;
         }
 
@@ -78,8 +78,11 @@ public class enemyAI : MonoBehaviour, IDamage
         ranPos += startingPos;
 
         NavMeshHit hit;
-        NavMesh.SamplePosition(ranPos, out hit, roamDist, 1);
-        agent.SetDestination(hit.position);
+
+        if (NavMesh.SamplePosition(ranPos, out hit, roamDist, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
     }
 
     bool canSeePlayer()
@@ -114,7 +117,7 @@ public class enemyAI : MonoBehaviour, IDamage
         return false;
     }
 
-        void faceTarget()
+    void faceTarget()
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);

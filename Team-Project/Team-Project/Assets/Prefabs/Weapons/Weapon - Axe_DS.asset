@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001e2a1030a5bdc4f9e14c29f96a4d28, type: 3}
+  m_Name: Weapon - Axe_DS
+  m_EditorClassIdentifier: 
+  weapon: 4
+  weaponModel: {fileID: 7632681188156289960, guid: be10b5949b0ef6b4488bc371989cbe8b, type: 3}
+  damage: 50
+  attackRate: 1.2
+  attackDistance: 3.5
+  arrow: {fileID: 0}
+  projectileForce: 0
+  hitEffect: {fileID: 0}
+  shootSound:
+  - {fileID: 8300000, guid: 872e1b882afaf0341b09325fb0ed285c, type: 3}
+  shootSoundVol: 0.5

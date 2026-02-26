@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - Exit
+  - Pillar Blade
+  - burnUI
+  - shockUI
+  - poisonUI
+  - burn
+  - Player Spawn Pos
   layers:
   - Default
   - TransparentFX
@@ -16,9 +22,9 @@ TagManager:
   - EnemyBullet
   - PlayerBullet
   - Goal
-  - 
-  - 
-  - 
+  - PillarBlade
+  - PendulumBlade
+  - Weapon Cam
   - 
   - 
   - 
