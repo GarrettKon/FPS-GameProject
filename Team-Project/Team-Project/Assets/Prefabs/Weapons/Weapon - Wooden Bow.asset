@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: 0
   weaponModel: {fileID: 1244519736327663167, guid: ea0cb0f6a3f0efe48afa9fef438ad764, type: 3}
-  damage: 25
-  attackRate: 0.8
+  damage: 20
+  attackRate: 1
   attackDistance: 100
   arrow: {fileID: 4078504430598563479, guid: 4c8f3df5450deb046ab3276a9b4a2ede, type: 3}
   projectileForce: 35
