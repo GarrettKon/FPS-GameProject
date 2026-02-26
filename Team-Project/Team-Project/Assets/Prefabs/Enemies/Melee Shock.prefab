@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8567476968393870114}
   - component: {fileID: 8289540994385961899}
   m_Layer: 7
-  m_Name: Melee
+  m_Name: Melee Shock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,9 +70,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::damage
   type: 0
-  statusType: 0
+  statusType: 3
   rb: {fileID: 8289540994385961899}
-  damageAmount: 10
+  damageAmount: 6
   damageRate: 0
   statusDamageAmount: 0
   statusDamageRate: 0

@@ -90,6 +90,8 @@ public class playerController : MonoBehaviour, IDamage, IStatus, IPickup
         controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
         Physics.SyncTransforms();
         HP = HPOrig;
+        statusTimer = statusEndTime;
+        endStatus();
         updatePlayerUI();
     }
 

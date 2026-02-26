@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemyAI
   model: {fileID: 7069626882950045143}
   agent: {fileID: 6114458619507565888}
-  HP: 3
+  HP: 50
   faceTargetSpeed: 12
   FOV: 90
   roamDist: 5

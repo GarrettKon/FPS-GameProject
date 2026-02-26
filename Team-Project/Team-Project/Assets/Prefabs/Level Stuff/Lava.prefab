@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4442012585031906540}
   - component: {fileID: 3815056574499427670}
-  - component: {fileID: 2687602153783463579}
   - component: {fileID: 4566818304677169497}
   - component: {fileID: 2368589581191936677}
   - component: {fileID: 446336770576082803}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lava
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,28 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::damage
   type: 2
+  statusType: 2
   rb: {fileID: 0}
   damageAmount: 1
   damageRate: 1
-  speed: 0
-  destroyTime: 0
-  hitEffect: {fileID: 0}
---- !u!114 &2687602153783463579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7214251232386597524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 889ef9f7c5b03364d9bb20a4ce37fe7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::damage
-  type: 2
-  rb: {fileID: 0}
-  damageAmount: 1
-  damageRate: 1
+  statusDamageAmount: 1
+  statusDamageRate: 1
   speed: 0
   destroyTime: 0
   hitEffect: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8567476968393870114}
   - component: {fileID: 8289540994385961899}
   m_Layer: 7
-  m_Name: Melee
+  m_Name: Melee Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,12 +70,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::damage
   type: 0
-  statusType: 0
+  statusType: 2
   rb: {fileID: 8289540994385961899}
-  damageAmount: 10
+  damageAmount: 4
   damageRate: 0
-  statusDamageAmount: 0
-  statusDamageRate: 0
+  statusDamageAmount: 1
+  statusDamageRate: 0.5
   speed: 0
   destroyTime: 0.1
   hitEffect: {fileID: 0}
